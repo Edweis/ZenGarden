@@ -1,0 +1,19 @@
+@(form: Form[SignTools.NewUser])
+
+<form action="@routes.SignTools.signIn()" method="post">
+	@if(form.hasGlobalErrors) {
+	    <p class="error">
+	        @form.globalError.message
+	    </p>
+	}
+	
+	<input type="text" name="firstName" placeholder="name"></input>
+	<input type="email" name="email" placeholder="email"></input>
+	<input type="password" name="password" placeholder="password"></input>
+	<input type="password" name="confirmation" placeholder="password"></input>
+	
+	@forms.school("school", "country")
+
+	<input type="submit" value="Sign In"></input>
+
+</form>
