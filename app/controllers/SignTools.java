@@ -1,6 +1,5 @@
 package controllers;
 
-import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
@@ -10,8 +9,6 @@ import play.mvc.Results;
 
 import com.google.inject.Inject;
 
-import controllers.SignTools.LoginUser;
-import controllers.SignTools.NewUser;
 import models.User;
 
 public class SignTools extends Controller {
@@ -73,7 +70,6 @@ public class SignTools extends Controller {
 		Form<NewUser> siForm = ff.form(NewUser.class).bindFromRequest();
 
 		if (siForm.hasErrors()) {
-			Logger.warn(siForm.errors().toString());
 			return Results.badRequest(views.html.pages.signin.render(siForm));
 		} else {
 			NewUser nu = siForm.get();

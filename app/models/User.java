@@ -2,8 +2,17 @@ package models;
 
 import play.data.validation.Constraints;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.avaje.ebean.Model;
 
@@ -13,6 +22,7 @@ import models.annotations.Searchable;
 public class User extends Model {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long Id;
 	@Constraints.Required
 	public String Email;
@@ -23,26 +33,26 @@ public class User extends Model {
 	public String FirstName;
 
 	// Attributes below are not mandatory
-	// public String PictureExtension;
-	// public String IntroductionText;
-	// public String AppointmentPrice;
-	//
-	// public Integer RatingResult;
-	// @Formats.DateTime(pattern="dd/MM/yy")
-	// public Date DateRegistration;
-	// @JoinColumn(name = "IdNationality")
-	// public Country Nationality;
-	//
-	// @OneToMany(mappedBy = "User")
-	// public List<Education> myEducation;
-	// @OneToMany(mappedBy = "User")
-	// public List<WorkCursus> myWorkcursus;
-	// @OneToMany(mappedBy = "User")
-	// public List<Experience> myExperience;
-	// @OneToMany(mappedBy = "User")
-	// public List<Funding> myFunding;
-	// @OneToMany(mappedBy = "User")
-	// public List<Contact> myContactsInfo;
+	public String PictureExtension;
+	public String IntroductionText;
+	public String AppointmentPrice;
+
+	public Integer RatingResult;
+	public Timestamp DateRegistration;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "IdNationality")
+	public Country Nationality;
+
+	@OneToMany(mappedBy = "User")
+	public List<Education> myEducation;
+	@OneToMany(mappedBy = "User")
+	public List<WorkCursus> myWorkcursus;
+	@OneToMany(mappedBy = "User")
+	public List<Experience> myExperience;
+	@OneToMany(mappedBy = "User")
+	public List<Funding> myFunding;
+	@OneToMany(mappedBy = "User")
+	public List<Contact> myContactsInfo;
 
 	public static Finder<Long, User> find = new Finder<Long, User>(User.class);
 
