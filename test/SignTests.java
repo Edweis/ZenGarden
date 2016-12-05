@@ -2,7 +2,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import play.Logger;
 import play.mvc.Http.RequestBuilder;
 import play.mvc.Result;
 import play.test.Helpers;
@@ -21,7 +20,7 @@ public class SignTests extends PrepareTests {
 
 	@Test
 	public void loginSucess() {
-		// User.create("bob@example.com", "secret", "Bob").save();
+		User.create("bob@example.com", "secret", "Bob").save();
 
 		RequestBuilder req = new RequestBuilder().method(Helpers.POST)
 				.bodyForm(ImmutableMap.of("email", "bob@example.com", "password", "secret"))
@@ -29,7 +28,7 @@ public class SignTests extends PrepareTests {
 
 		Result result = play.test.Helpers.route(req);
 
-		assertEquals(200, result.status());
+		assertEquals(303, result.status());
 
 	}
 
@@ -41,26 +40,27 @@ public class SignTests extends PrepareTests {
 
 		Result result = play.test.Helpers.route(req);
 
-		assertEquals(303, result.status());
+		assertEquals(400, result.status());
 	}
 
 	@Test
-	public void signInWithoutSchoolSucess() {
+	public void signInWithoutSchoolSuccess() {
 
 		Map<String, String> form = new HashMap<String, String>();
 		form.put("email", "boby@example.com");
 		form.put("password", "secret");
 		form.put("confirmation", "secret");
 		form.put("firstName", "Boby");
+		form.put("school", "");
+		form.put("country", "");
 
 		RequestBuilder req = new RequestBuilder().method(Helpers.POST).bodyForm(form)
 				.uri(routes.SignTools.signIn().url());
 
 		Result result = play.test.Helpers.route(req);
 
-		assertEquals(200, result.status());
-		assertNotNull(User.find.where().eq("email", "boby@example").findUnique());
-		Logger.info("Success : " + result.header("Location").get());
+		assertEquals(303, result.status());
+		assertNotNull(User.find.where().eq("email", "boby@example.com").findUnique());
 	}
 
 	@Test
@@ -71,14 +71,15 @@ public class SignTests extends PrepareTests {
 		form.put("password", "secret");
 		form.put("confirmation", "sicrit");
 		form.put("firstName", "Boby");
+		form.put("school", "");
+		form.put("country", "");
 
 		RequestBuilder req = new RequestBuilder().method(Helpers.POST).bodyForm(form)
 				.uri(routes.SignTools.signIn().url());
 
 		Result result = play.test.Helpers.route(req);
 
-		assertEquals(303, result.status());
+		assertEquals(400, result.status());
 		assertNull(User.find.where().eq("email", "boby@example").findUnique());
-		Logger.info("Fail : " + result.header("Location").get());
 	}
 }

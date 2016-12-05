@@ -7,10 +7,10 @@
         <script type="text/javascript" src="@routes.Assets.versioned("javascripts/main.js")"></script>
     </head>
     <body>
-    	@inc.header
+    	@inc.header()
         <div class="container" id="main">
             @body
         </div>
-        @inc.footer
+        @inc.footer()
     </body>
 </html>

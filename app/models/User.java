@@ -71,9 +71,17 @@ public class User extends Model {
 		FirstName = firstName;
 	}
 
+	/**
+	 * Create a {@linkplain User } and save it in the database.
+	 * 
+	 * @param email
+	 * @param password
+	 * @param firstName
+	 * @return
+	 */
 	public static User create(String email, String password, String firstName) {
 		User u = new User(email, password, firstName);
-		u.save();
+		u.insert();
 		return u;
 	}
 }

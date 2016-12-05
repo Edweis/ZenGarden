@@ -71,7 +71,6 @@ public class SignTools extends Controller {
 	 */
 	public Result signIn() {
 		Form<NewUser> siForm = ff.form(NewUser.class).bindFromRequest();
-		Logger.info("in signIn method");
 
 		if (siForm.hasErrors()) {
 			Logger.warn(siForm.errors().toString());
@@ -79,6 +78,7 @@ public class SignTools extends Controller {
 		} else {
 			NewUser nu = siForm.get();
 			nu.createUser();
+
 			SignTools.authenticate(nu.email, nu.password);
 			return redirect(routes.MainTools.home());
 		}
@@ -144,6 +144,10 @@ public class SignTools extends Controller {
 			return null;
 		}
 
+		/**
+		 * Create and insert a new user according to the mandatory information
+		 * input in this class.
+		 */
 		public void createUser() {
 			User.create(email, password, firstName);
 		}
