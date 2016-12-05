@@ -8,7 +8,7 @@ GET		/signin						controllers.SignTools.renderSignIn()
 POST	/signin						controllers.SignTools.signIn()
 GET		/signup						controllers.SignTools.renderSignUp()
 POST	/signup						controllers.SignTools.signUp()
-
+GET		/logout						controllers.SignTools.logout()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

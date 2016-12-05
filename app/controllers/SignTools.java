@@ -61,6 +61,11 @@ public class SignTools extends Controller {
 		}
 	}
 
+	public Result logout() {
+		session().clear();
+		return redirect(routes.MainTools.home());
+	}
+
 	/**
 	 * Sign In action
 	 * 
