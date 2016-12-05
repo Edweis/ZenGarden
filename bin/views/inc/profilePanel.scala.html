@@ -1,0 +1,18 @@
+@(title: String, allowEdit:Boolean)(contentList:  scala.collection.immutable.List[String])
+<div class="col-6-md" id="@title.toLowerCase()Panel">
+	<header>
+		@title
+	</header>
+	@if(allowEdit){
+	<form action="@routes.ProfileTools." method="post">	
+	}
+	<ul>
+		@contentList.map{elt =>
+		<li>@Html(elt)</li>
+		}
+	</ul>
+	@if(allowEdit){
+		<input type="submit" value="Add"></input>
+	</form>
+	}
+</div>

@@ -1,11 +1,14 @@
-@(form: Form[SignTools.LoginUser])
+@(form: Form[SignTools.LoginUser],errorMessage: String)
 
 <form action="@routes.SignTools.signUp" method="post">
-	@if(form.hasGlobalErrors) {
-	    <p class="error">
-	        @form.globalError.message
-	    </p>
+	<p class="error">
+	@if(form.hasGlobalErrors ) {
+	        @form.globalError
 	}
+	@if(errorMessage != null){
+		@errorMessage)
+	}
+    </p>
 	<input type="email" name="email" placeholder="email"></input>
 	<input type="password" name="password" placeholder="password"></input>
 	<input type="checkbox" name="remember"></input>

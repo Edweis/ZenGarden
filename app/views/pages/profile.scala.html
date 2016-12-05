@@ -1,0 +1,50 @@
+@(user : User, mine: Boolean)
+
+@main("Profile"){
+	<h1>@user.FirstName's profile</h1>
+	<div id="nutshell" class="row">
+		<div id="pictureSpace" class="col-md-3">
+			picture
+		</div>
+		<div id="nutshellContent" class="col-md-9">
+			<dl>
+				<dt>First Name</dt>
+				<dd>@user.FirstName</dd>
+				<dt>Nationality</dt>
+				<dd>@user.Nationality</dd>
+				<dt>Appointment price</dt>
+				<dd>@user.AppointmentPrice</dd>
+			</dl>
+		</div>
+	</div>
+	<div id="mainContent" class="row">
+		<div id="sidePanel" class="col-md-3">
+			side panel
+		</div>
+		<div id="details" class="col-md-9">
+			<div class="row">
+				@inc.profilePanel("Education", mine)(
+					user.myEducation.map(e =>
+							e.School.Name+","+ e.School.Country.Name+", for "+e.DurationMonth+", "+e.Major
+						).toList
+				)
+				@inc.profilePanel("Scholarship", mine)(
+					user.myFunding.map(f =>
+							f.Scholarship.Title
+						).toList
+				) 
+				@inc.profilePanel("Experience", mine)(
+					user.myExperience.map(e =>
+							e.Name+" <p>"+e.Details+"</p>"
+						).toList
+				)
+				@inc.profilePanel("Work", mine)(
+					user.myWorkcursus.map(w =>
+							w.Work.CompanyName
+						).toList
+				)
+			</div>
+		</div>
+	</div>
+	
+}	

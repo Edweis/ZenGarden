@@ -34,12 +34,22 @@ public class SignTools extends Controller {
 	}
 
 	/**
+	 * Return the Sign In page with an error message
+	 * 
+	 * @param errorMessage
+	 * @return
+	 */
+	public Result renderSignUpError(String errorMessage) {
+		return ok(views.html.pages.signup.render(ff.form(LoginUser.class), errorMessage));
+	}
+
+	/**
 	 * Render the Sign Up page
 	 * 
 	 * @return
 	 */
 	public Result renderSignUp() {
-		return ok(views.html.pages.signup.render(ff.form(LoginUser.class)));
+		return ok(views.html.pages.signup.render(ff.form(LoginUser.class), null));
 	}
 
 	/**
@@ -95,7 +105,7 @@ public class SignTools extends Controller {
 		Form<LoginUser> suForm = ff.form(LoginUser.class).bindFromRequest();
 
 		if (suForm.hasErrors()) {
-			return Results.badRequest(views.html.pages.signup.render(suForm));
+			return Results.badRequest(views.html.pages.signup.render(suForm, null));
 		} else {
 			authenticate(suForm.get().email, suForm.get().password);
 			return redirect(routes.MainTools.home());
