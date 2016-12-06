@@ -28,7 +28,12 @@
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">Sign Up <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							@pages.signup()
+						<form action="@routes.SignTools.signUp()" method="post">
+							<li><input type="email" id="name" placeholder="email" /></li>
+							<li><input type="password" id="password"
+								placeholder="password" /></li>
+							<li><input type="submit">Connect</input></li>
+						</form>
 						</ul></li>
 				</ul>
 			</div>
