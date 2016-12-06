@@ -1,0 +1,17 @@
+@(le: List[Education], mine: Boolean)
+@import inc.profile._
+
+@mainPanel("Education"){
+	@le.map(e=>
+		itemPanel(mine, "", e.Id)(
+			Html(e.School.Name+","+ e.School.Country.Name+", for "+e.DurationMonth+", "+e.Major)
+		)
+	)
+}{
+	@if(mine){
+		@formPanel(""){
+			<p>edit form</p>
+		}
+	}
+
+}

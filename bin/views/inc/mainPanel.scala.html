@@ -1,0 +1,26 @@
+@main(title: String)(list: Html)(form:Html) ={
+
+<div class="col-6-md" id="@title.toLowerCase()Panel">
+	<header>
+		@title
+	</header>
+	<ul>
+		@list
+	</ul>
+	@form
+</div>
+
+}
+
+@item(mine: Boolean, deleteRoute:String, itemId:String)(content: Html)={
+	<li>@content @if(mine){<span><a href="#" class="edit" data-item-id="@itemId">Edit</a><a href="@deleteRoute" class="delete" >Delete</a></span>}</li>
+	
+}
+
+@form(action: String)(content:Html) = {
+	<form action="@action">
+		@content
+		<input type="submit" value="Change value"/>
+		<input class="cancelBtn" type="button" value="Cancel"/>
+	</form>
+}

@@ -1,0 +1,15 @@
+@(title: String)(list: Html)(form:Html) ={
+
+<div class="col-6-md" id="@title.toLowerCase()Panel">
+	<header>
+		@title
+	</header>
+	<ul>
+		@list
+	</ul>
+	@form
+</div>
+
+}
+
+

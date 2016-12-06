@@ -1,0 +1,7 @@
+@(action: String)(content:Html) = {
+	<form action="@action">
+		@content
+		<input type="submit" value="Change value"/>
+		<input class="cancelBtn" type="button" value="Cancel"/>
+	</form>
+}
