@@ -1,6 +1,7 @@
 package models;
 
-import javax.persistence.CascadeType;
+import play.data.validation.Constraints;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,21 +13,62 @@ import javax.validation.constraints.NotNull;
 
 import com.avaje.ebean.Model;
 
-import models.annotations.Searchable;
+import models.tools.Searchable;
 
 @Entity
 public class School extends Model {
 
+	public static class Builder {
+		@Constraints.Required
+		public String schoolName;
+		public String schoolCity;
+		@Constraints.Required
+		public String countryCode3;
+
+		public String validate() {
+			if (models.Country.getFromCode3(countryCode3) == null) {
+				return "Wrong country code";
+			} else {
+				return null;
+			}
+		}
+
+		public School generate() {
+			Country c = models.Country.getFromCode3(countryCode3);
+			School duplicate = School.find.where().eq("Name", schoolName).and().eq("Country", c).and()
+					.eq("City", schoolCity).findUnique();
+			if (duplicate != null) {
+				return duplicate;
+			} else {
+				return new School(schoolName, c, schoolCity);
+			}
+		}
+
+		public School replace(School s) {
+			s.Name = this.schoolName;
+			s.City = this.schoolCity;
+			s.Country = models.Country.getFromCode3(countryCode3);
+			return s;
+		}
+
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long Id;
+	private Long Id;
 	@Searchable(userFetchPath = "User.myEducation.School")
-	public String Name;
+	private String Name;
 	@NotNull(message = "Please insert a country")
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "IdCountry")
-	public Country Country;
-	public String City;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "idcountry")
+	private Country Country;
+	private String City;
+
+	protected School(String name, Country country, String city) {
+		Name = name;
+		Country = country;
+		City = city;
+	}
 
 	@Override
 	public String toString() {
@@ -34,4 +76,37 @@ public class School extends Model {
 	}
 
 	public static Finder<Long, School> find = new Finder<Long, School>(School.class);
+
+	public Long getId() {
+		return Id;
+	}
+
+	public void setId(Long id) {
+		Id = id;
+	}
+
+	public String getName() {
+		return Name;
+	}
+
+	public void setName(String name) {
+		Name = name;
+	}
+
+	public Country getCountry() {
+		return Country;
+	}
+
+	public void setCountry(Country country) {
+		Country = country;
+	}
+
+	public String getCity() {
+		return City;
+	}
+
+	public void setCity(String city) {
+		City = city;
+	}
+
 }

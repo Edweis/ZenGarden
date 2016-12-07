@@ -15,6 +15,7 @@ public class Secured extends Security.Authenticator {
 
 	@Override
 	public Result onUnauthorized(Context ctx) {
+		// TODO : How to put unauthorized instead ?
 		return redirect(routes.SignTools.renderSignUpError("Oups you should be connected to access this page"));
 	}
 

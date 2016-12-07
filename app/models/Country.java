@@ -7,7 +7,7 @@ import javax.persistence.Id;
 
 import com.avaje.ebean.Model;
 
-import models.annotations.Searchable;
+import models.tools.Searchable;
 
 @Entity
 public class Country extends Model {
@@ -25,5 +25,9 @@ public class Country extends Model {
 	}
 
 	public static Finder<Long, Country> find = new Finder<Long, Country>(Country.class);
+
+	public static Country getFromCode3(String code3) {
+		return Country.find.where().eq("Code3", code3).findUnique();
+	}
 
 }

@@ -16,10 +16,46 @@ import javax.persistence.OneToMany;
 
 import com.avaje.ebean.Model;
 
-import models.annotations.Searchable;
+import models.tools.Searchable;
 
 @Entity
 public class User extends Model {
+
+	public static class Builder {
+		@Constraints.Required
+		@Constraints.MinLength(value = 3)
+		public String firstName;
+		@Constraints.Required
+		@Constraints.Email
+		public String email;
+		@Constraints.Required
+		@Constraints.MinLength(value = 5)
+		public String password;
+		@Constraints.Required
+		@Constraints.MinLength(value = 5)
+		public String confirmation;
+
+		public String school;
+		public String country;
+
+		public String validate() {
+			if (User.find.where().eq("email", email).findUnique() != null) {
+				return "User already exists";
+			}
+			if (!password.equals(confirmation)) {
+				return "Passwords dont match";
+			}
+			return null;
+		}
+
+		/**
+		 * Create and insert a new user according to the mandatory information
+		 * input in this class.
+		 */
+		public User generate() {
+			return User.create(email, password, firstName);
+		}
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +79,7 @@ public class User extends Model {
 	@JoinColumn(name = "IdNationality")
 	public Country Nationality;
 
-	@OneToMany(mappedBy = "User")
+	@OneToMany(mappedBy = "User", fetch = FetchType.LAZY)
 	public List<Education> myEducation;
 	@OneToMany(mappedBy = "User")
 	public List<WorkCursus> myWorkcursus;
@@ -94,4 +130,10 @@ public class User extends Model {
 		u.insert();
 		return u;
 	}
+
+	@Override
+	public String toString() {
+		return "User [Id=" + Id + ", FirstName=" + FirstName + "]";
+	}
+
 }

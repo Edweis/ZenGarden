@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.Model.Finder;
 
-import models.annotations.Searchable;
+import models.tools.Searchable;
 
 @Entity
 public class Work extends Model {

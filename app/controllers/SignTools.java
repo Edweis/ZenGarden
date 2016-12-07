@@ -9,6 +9,7 @@ import play.mvc.Results;
 
 import com.google.inject.Inject;
 
+import controllers.SignTools.LoginUser;
 import models.User;
 
 public class SignTools extends Controller {
@@ -30,7 +31,7 @@ public class SignTools extends Controller {
 	 * @return
 	 */
 	public Result renderSignIn() {
-		return ok(views.html.pages.signin.render(ff.form(NewUser.class)));
+		return ok(views.html.pages.signin.render(ff.form(User.Builder.class)));
 	}
 
 	/**
@@ -82,13 +83,13 @@ public class SignTools extends Controller {
 	 * @return
 	 */
 	public Result signIn() {
-		Form<NewUser> siForm = ff.form(NewUser.class).bindFromRequest();
+		Form<User.Builder> siForm = ff.form(User.Builder.class).bindFromRequest();
 
 		if (siForm.hasErrors()) {
 			return Results.badRequest(views.html.pages.signin.render(siForm));
 		} else {
-			NewUser nu = siForm.get();
-			nu.createUser();
+			User.Builder nu = siForm.get();
+			nu.generate();
 
 			SignTools.authenticate(nu.email, nu.password);
 			return redirect(routes.MainTools.home());
@@ -128,39 +129,4 @@ public class SignTools extends Controller {
 		}
 	}
 
-	public static class NewUser {
-		@Constraints.Required
-		@Constraints.MinLength(value = 3)
-		public String firstName;
-		@Constraints.Required
-		@Constraints.Email
-		public String email;
-		@Constraints.Required
-		@Constraints.MinLength(value = 5)
-		public String password;
-		@Constraints.Required
-		@Constraints.MinLength(value = 5)
-		public String confirmation;
-
-		public String school;
-		public String country;
-
-		public String validate() {
-			if (User.find.where().eq("email", email).findUnique() != null) {
-				return "User already exists";
-			}
-			if (!password.equals(confirmation)) {
-				return "Passwords dont match";
-			}
-			return null;
-		}
-
-		/**
-		 * Create and insert a new user according to the mandatory information
-		 * input in this class.
-		 */
-		public void createUser() {
-			User.create(email, password, firstName);
-		}
-	}
 }

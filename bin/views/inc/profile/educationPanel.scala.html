@@ -1,16 +1,31 @@
-@(le: List[Education], mine: Boolean)
+ @(le: List[Education], mine: Boolean)
 @import inc.profile._
 
 @mainPanel("Education"){
 	@le.map(e=>
-		itemPanel(mine, "", e.Id)(
-			Html(e.School.Name+","+ e.School.Country.Name+", for "+e.DurationMonth+", "+e.Major)
+		itemPanel(mine, routes.ProfileTools.deleteEducation(), e.getId)(
+			Html(
+				 "("+e.getSchool.getId+")"+
+				 e.getSchool.getName+","+
+				 e.getSchool.getCountry.Name+", for "+
+				 e.getDurationMonth+", "+
+				 e.getMajor
+				 
+				 )
 		)
 	)
 }{
 	@if(mine){
-		@formPanel(""){
-			<p>edit form</p>
+		@formPanel(routes.ProfileTools.addEducation()){
+			<p>
+				@forms.school()
+				<input type="text" placeholder="month spent" name="DurationMonth"/>
+				<input type="text" placeholder="Start year" name="StartYear"/>
+				<input type="text" placeholder="Promotion" name="Promotion"/>
+				<input type="text" placeholder="Major" name="Major"/>
+				<input type="checkbox"  name="IsHomeUniversity"/>
+				<input type="checkbox" name="IsCurrentEducation"/>
+			</p>
 		}
 	}
 
