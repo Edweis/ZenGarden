@@ -4,16 +4,26 @@ import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import play.mvc.Results;
 import play.mvc.Security.Authenticated;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+
+import org.apache.commons.io.FilenameUtils;
+
 import com.google.inject.Inject;
 
-import models.Country;
-import models.Education;
-import models.School;
 import models.User;
+import models.tools.InteractivePanelObject;
 
 @Authenticated(Secured.class)
 public class ProfileTools extends Controller {
@@ -31,134 +41,110 @@ public class ProfileTools extends Controller {
 	}
 
 	/**
-	 * Edit a field of the connected user. Field should be parse like this :
-	 * <br/>
-	 * TODO doc and method
+	 * Action on a panel object. It should look like : <br/>
+	 * <tt>action/clazz[/id]</tt><br/>
+	 * for instance : <br/>
+	 * <tt>edit/education/4523</tt>
 	 * 
-	 * @param field
+	 * @param path
 	 * @return
 	 */
-	@Deprecated
-	public Result edit(String path) {
-		String[] s = path.split("/");
+	public Result actionOnPanelObject(String action, String clazz, Long id) {
 
-		// Split the path - can be done in routing
-		String clazz;
-		Long id;
-		String field;
-		try {
-			clazz = s[0];
-			id = Long.parseLong(s[1]);
-			field = s[2];
-		} catch (ArrayIndexOutOfBoundsException e) {
-			return badRequest("The request should have 3 parameters");
-		} catch (NumberFormatException e) {
-			return badRequest("The second parameter should be a Long");
+		User connectedUser = Secured.connectedUser(ctx());
+		InteractivePanelObject<?> ipo;
+		switch (clazz) {
+		case "education":
+			ipo = new InteractivePanel(connectedUser, ff).new InteractiveEducation();
+			break;
+		case "scholarship":
+			ipo = new InteractivePanel(connectedUser, ff).new InteractiveScholarship();
+			break;
+		case "experience":
+			ipo = new InteractivePanel(connectedUser, ff).new InteractiveExperience();
+			break;
+		case "work":
+			ipo = new InteractivePanel(connectedUser, ff).new InteractiveWork();
+			break;
+		case "user":
+			Logger.debug(request().contentType().get());
+			if (request().contentType().get().contains("multipart/form-data")) {
+				// if it's his profile picture
+				MultipartFormData<File> body = request().body().asMultipartFormData();
+				FilePart<File> picture = body.getFile("picture");
+
+				if (picture != null) {
+					String fileName = picture.getFilename();
+					String extension = FilenameUtils.getExtension(fileName);
+					Logger.debug(fileName);
+
+					Path path = (new File(User.generateAbsolutePicturePath(connectedUser, extension))).toPath();
+					Logger.debug(path.toString());
+
+					File file = picture.getFile();
+					try (InputStream is = new FileInputStream(file)) {
+						java.nio.file.Files.copy(is, path, StandardCopyOption.REPLACE_EXISTING);
+						connectedUser.setPictureExtension(User.generateRelativePicturePath(connectedUser, extension));
+						connectedUser.update();
+
+						Logger.debug("DONE !");
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					return ok("File uploaded");
+				} else {
+					flash("error", "Missing file");
+					return badRequest();
+				}
+
+			} else {
+				// else
+				Form<User.Updater> fuu = ff.form(User.Updater.class).bindFromRequest();
+				if (fuu.hasErrors()) {
+					return badRequest(fuu.globalError().message());
+				} else {
+					fuu.get().update(connectedUser).update();
+					return ok(connectedUser.getIntroductionText());
+				}
+			}
+
+		default:
+			return badRequest("class not recognized");
 		}
 
-		// cases
-		User cu = Secured.connectedUser(ctx());
-		return null;
-	}
+		switch (action) {
+		case "add":
+			return ipo.addObject();
+		case "remove":
+			if (id == 0) {
+				return badRequest("bad id");
+			}
+			return ipo.removeObject(id, connectedUser);
+		case "edit":
+			if (id == 0) {
+				return badRequest("bad id");
+			}
+			return ipo.editObject(id, connectedUser);
 
-	/**
-	 * AJAX action that add an education.
-	 * 
-	 * @return the education panel to re-render via javascript.
-	 */
-	public Result addEducation() {
-		Form<Education.Builder> ef = ff.form(Education.Builder.class).bindFromRequest();
-		Form<School.Builder> es = ff.form(School.Builder.class).bindFromRequest();
-
-		if (ef.hasErrors()) {
-			Logger.error(ef.errors().keySet().toString());
-			Logger.error(ef.errors().values().toString());
-			return Results.badRequest(ef.globalError().message());
+		default:
+			return badRequest("action not recognized");
 		}
-		if (es.hasErrors()) {
-			Logger.error(es.errors().keySet().toString());
-			Logger.error(es.errors().values().toString());
-			return Results.badRequest(es.globalError().message());
-		}
-
-		// submit
-		User u = Secured.connectedUser(ctx());
-		School s = es.get().generate();
-		Education e = ef.get().generate(u, s);
-		s.save();
-		e.save();
-
-		Logger.debug("Education added !", e);
-		u.refresh();
-		return ok(views.html.inc.profile.educationPanel.render(u.myEducation, true));
-	}
-
-	/**
-	 * AJAX action that edit an education.
-	 * 
-	 * @return
-	 */
-	public Result editEducation(Long educationId) {
-		// check if its his
-		Education ee = Education.find.byId(educationId);
-		if (ee == null) {
-			return Results.notFound("education id: " + educationId);
-		}
-		User cu = Secured.connectedUser(ctx());
-		if (!ee.getUser().equals(cu)) {
-			return Results.unauthorized();
-		}
-
-		// Check the form
-		Form<Education.Builder> ef = ff.form(Education.Builder.class).bindFromRequest();
-		Form<School.Builder> es = ff.form(School.Builder.class).bindFromRequest();
-
-		if (ef.hasErrors()) {
-			return Results.badRequest(ef.globalError().message());
-		}
-		if (es.hasErrors()) {
-			return Results.badRequest(es.globalError().message());
-		}
-
-		// Submit
-		es.get().replace(ee.getSchool());
-		ef.get().replace(ee).update();
-
-		// display
-		cu.refresh();
-		return ok(views.html.inc.profile.educationPanel.render(cu.myEducation, true));
-
-	}
-
-	public Result deleteEducation(Long educationId) {
-		// check if its his
-		Education ee = Education.find.byId(educationId);
-		Logger.info("deleting education " + educationId + " ...");
-		if (ee == null) {
-			return Results.notFound("education id: " + educationId);
-		}
-		User cu = Secured.connectedUser(ctx());
-		if (!ee.getUser().equals(cu)) {
-			return Results.unauthorized();
-		}
-		// process
-		ee.delete();
-		cu.refresh();
-		return ok(views.html.inc.profile.educationPanel.render(cu.myEducation, true));
 
 	}
 
 	public Result display(Long userId) {
 		User u = User.find.byId(userId);
 
-		School s = School.find.byId((long) 1);
-		Country c = Country.find.byId(1L);
-
 		if (u == null) {
 			return Results.notFound("User not found");
 		} else {
 			// Is it your profile ?
-			if (u.Id == Secured.getUserIdLong(ctx())) {
+			if (u.getId() == Secured.getUserIdLong(ctx())) {
 				return ok(views.html.pages.profile.render(u, true));
 			} else {
 				return ok(views.html.pages.profile.render(u, false));

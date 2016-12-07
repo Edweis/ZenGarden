@@ -1,0 +1,255 @@
+!com.avaje.ebean.common.BeanList []
+--- !com.avaje.ebean.common.BeanList []
+--- !com.avaje.ebean.common.BeanList []
+--- !com.avaje.ebean.common.BeanList
+- !models.Country
+   Code2: FR
+   Code3: FRA
+   Id: 1
+   Name: France
+--- !com.avaje.ebean.common.BeanList
+- &1 !models.Education
+   DurationMonth: 12
+   Id: 1
+   IsHomeUniversity: true
+   Major: Economie
+   Promotion: 
+   School: 
+      Country: &2
+         Id: 1
+      Id: 1
+      Name: Yonsei
+   StartYear: 2014
+   User: &3
+      Email: bob@example.com
+      FirstName: Bob
+      Id: 1
+      Password: secret
+      myEducation: !com.avaje.ebean.common.BeanList
+      - *1
+      myExperience: !com.avaje.ebean.common.BeanList
+      - !models.Experience
+         Details: Brewed stuff
+         Duration: 12 Years
+         Id: 1
+         Name: Brewery
+         User: *3
+      myWorkcursus: !com.avaje.ebean.common.BeanList
+      - !models.WorkCursus
+         DurationMonth: 12
+         Id: 11
+         Position: Enginerr
+         User: *3
+         Work: 
+            City: Marseille
+            CompanyName: LG
+            Country: *2
+--- !com.avaje.ebean.common.BeanList
+- &4 !models.Experience
+   Details: Brewed stuff
+   Duration: 12 Years
+   Id: 1
+   Name: Brewery
+   User: &3
+      Email: bob@example.com
+      FirstName: Bob
+      Id: 1
+      Password: secret
+      myEducation: !com.avaje.ebean.common.BeanList
+      - &1 !models.Education
+         DurationMonth: 12
+         Id: 1
+         IsHomeUniversity: true
+         Major: Economie
+         Promotion: 
+         School: 
+            Country: &2
+               Id: 1
+            Id: 1
+            Name: Yonsei
+         StartYear: 2014
+         User: *3
+      myExperience: !com.avaje.ebean.common.BeanList
+      - *4
+      myWorkcursus: !com.avaje.ebean.common.BeanList
+      - !models.WorkCursus
+         DurationMonth: 12
+         Id: 11
+         Position: Enginerr
+         User: *3
+         Work: 
+            City: Marseille
+            CompanyName: LG
+            Country: *2
+--- !com.avaje.ebean.common.BeanList []
+--- !com.avaje.ebean.common.BeanList []
+--- !com.avaje.ebean.common.BeanList []
+--- !com.avaje.ebean.common.BeanList []
+--- !com.avaje.ebean.common.BeanList
+- !models.School
+   Country: &2
+      Id: 1
+   Id: 1
+   Name: Yonsei
+--- !com.avaje.ebean.common.BeanList
+- &3 !models.User
+   Email: bob@example.com
+   FirstName: Bob
+   Id: 1
+   Password: secret
+   myEducation: !com.avaje.ebean.common.BeanList
+   - &1 !models.Education
+      DurationMonth: 12
+      Id: 1
+      IsHomeUniversity: true
+      Major: Economie
+      Promotion: 
+      School: 
+         Country: &2
+            Id: 1
+         Id: 1
+         Name: Yonsei
+      StartYear: 2014
+      User: *3
+   myExperience: !com.avaje.ebean.common.BeanList
+   - &4 !models.Experience
+      Details: Brewed stuff
+      Duration: 12 Years
+      Id: 1
+      Name: Brewery
+      User: *3
+   myWorkcursus: !com.avaje.ebean.common.BeanList
+   - !models.WorkCursus
+      DurationMonth: 12
+      Id: 11
+      Position: Enginerr
+      User: *3
+      Work: 
+         City: Marseille
+         CompanyName: LG
+         Country: *2
+- &5 !models.User
+   Email: ethan@gmail.ol
+   FirstName: Ethan
+   Id: 2
+   IntroductionText: Bite
+   Password: secret
+   PictureExtension: /media/piou/Data/Documents/Developpement/Banquise/green/public/images/profile/2pp.jpg
+   myWorkcursus: !com.avaje.ebean.common.BeanList
+   - !models.WorkCursus
+      DurationMonth: 12
+      Id: 12
+      Position: Enginerr
+      User: *5
+      Work: 
+         City: 
+         CompanyName: LG
+         Country: *2
+--- !com.avaje.ebean.common.BeanList
+- &6 !models.WorkCursus
+   DurationMonth: 12
+   Id: 11
+   Position: Enginerr
+   User: &3
+      Email: bob@example.com
+      FirstName: Bob
+      Id: 1
+      Password: secret
+      myEducation: !com.avaje.ebean.common.BeanList
+      - &1 !models.Education
+         DurationMonth: 12
+         Id: 1
+         IsHomeUniversity: true
+         Major: Economie
+         Promotion: 
+         School: 
+            Country: &2
+               Id: 1
+            Id: 1
+            Name: Yonsei
+         StartYear: 2014
+         User: *3
+      myExperience: !com.avaje.ebean.common.BeanList
+      - &4 !models.Experience
+         Details: Brewed stuff
+         Duration: 12 Years
+         Id: 1
+         Name: Brewery
+         User: *3
+      myWorkcursus: !com.avaje.ebean.common.BeanList
+      - *6
+   Work: 
+      City: Marseille
+      CompanyName: LG
+      Country: *2
+- &7 !models.WorkCursus
+   DurationMonth: 12
+   Id: 12
+   Position: Enginerr
+   User: &5
+      Email: ethan@gmail.ol
+      FirstName: Ethan
+      Id: 2
+      IntroductionText: Bite
+      Password: secret
+      PictureExtension: /media/piou/Data/Documents/Developpement/Banquise/green/public/images/profile/2pp.jpg
+      myWorkcursus: !com.avaje.ebean.common.BeanList
+      - *7
+   Work: 
+      City: 
+      CompanyName: LG
+      Country: *2
+--- !com.avaje.ebean.common.BeanList
+- &6 !models.WorkCursus
+   DurationMonth: 12
+   Id: 11
+   Position: Enginerr
+   User: &3
+      Email: bob@example.com
+      FirstName: Bob
+      Id: 1
+      Password: secret
+      myEducation: !com.avaje.ebean.common.BeanList
+      - &1 !models.Education
+         DurationMonth: 12
+         Id: 1
+         IsHomeUniversity: true
+         Major: Economie
+         Promotion: 
+         School: 
+            Country: &2
+               Id: 1
+            Id: 1
+            Name: Yonsei
+         StartYear: 2014
+         User: *3
+      myExperience: !com.avaje.ebean.common.BeanList
+      - &4 !models.Experience
+         Details: Brewed stuff
+         Duration: 12 Years
+         Id: 1
+         Name: Brewery
+         User: *3
+      myWorkcursus: !com.avaje.ebean.common.BeanList
+      - *6
+   Work: 
+      City: Marseille
+      CompanyName: LG
+      Country: *2
+- &7 !models.WorkCursus
+   DurationMonth: 12
+   Id: 12
+   Position: Enginerr
+   User: &5
+      Email: ethan@gmail.ol
+      FirstName: Ethan
+      Id: 2
+      IntroductionText: Bite
+      Password: secret
+      PictureExtension: /media/piou/Data/Documents/Developpement/Banquise/green/public/images/profile/2pp.jpg
+      myWorkcursus: !com.avaje.ebean.common.BeanList
+      - *7
+   Work: 
+      City: 
+      CompanyName: LG
+      Country: *2

@@ -7,14 +7,14 @@ import javax.persistence.Id;
 
 import com.avaje.ebean.Model;
 
-import models.tools.Searchable;
+import models.tools.SearcheableField;
 
 @Entity
 public class Country extends Model {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long Id;
-	@Searchable(userFetchPath = "User.myEducation.School.Country")
+	@SearcheableField(userFetchPath = "User.myEducation.School.Country")
 	public String Name;
 	public String Code2;
 	public String Code3;

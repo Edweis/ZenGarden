@@ -30,4 +30,6 @@ public class Contact extends Model {
 	public String toString() {
 		return "for:" + User + ", " + Type + ", " + Value;
 	}
+
+	public static Finder<Long, Contact> find = new Finder<Long, Contact>(Contact.class);
 }

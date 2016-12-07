@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 import com.avaje.ebean.Model;
 
-import models.tools.Searchable;
+import models.tools.SearcheableField;
 
 @Entity
 public class School extends Model {
@@ -44,19 +44,12 @@ public class School extends Model {
 			}
 		}
 
-		public School replace(School s) {
-			s.Name = this.schoolName;
-			s.City = this.schoolCity;
-			s.Country = models.Country.getFromCode3(countryCode3);
-			return s;
-		}
-
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
-	@Searchable(userFetchPath = "User.myEducation.School")
+	@SearcheableField(userFetchPath = "User.myEducation.School")
 	private String Name;
 	@NotNull(message = "Please insert a country")
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -64,7 +57,7 @@ public class School extends Model {
 	private Country Country;
 	private String City;
 
-	protected School(String name, Country country, String city) {
+	private School(String name, Country country, String city) {
 		Name = name;
 		Country = country;
 		City = city;
@@ -72,7 +65,7 @@ public class School extends Model {
 
 	@Override
 	public String toString() {
-		return Name + " (" + Country.Code3 + ")";
+		return getName() + " (" + getCountry().Code3 + ")";
 	}
 
 	public static Finder<Long, School> find = new Finder<Long, School>(School.class);

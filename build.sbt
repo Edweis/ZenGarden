@@ -24,3 +24,5 @@ libraryDependencies += "org.webjars" % "less-node" % "2.5.0"
 libraryDependencies += "com.typesafe.play" % "play-test_2.11" % "2.5.10"
 // https://mvnrepository.com/artifact/org.eclipse.persistence/eclipselink
 libraryDependencies += "org.eclipse.persistence" % "eclipselink" % "2.6.4"
+// https://mvnrepository.com/artifact/com.esotericsoftware.yamlbeans/yamlbeans
+libraryDependencies += "com.esotericsoftware.yamlbeans" % "yamlbeans" % "1.09"

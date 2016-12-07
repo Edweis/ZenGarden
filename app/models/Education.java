@@ -2,6 +2,7 @@ package models;
 
 import play.data.validation.Constraints;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,10 +14,11 @@ import javax.validation.constraints.Pattern;
 
 import com.avaje.ebean.Model;
 
-import models.tools.Searchable;
+import models.tools.SearcheableField;
+import models.tools.UserBelonging;
 
 @Entity
-public class Education extends Model {
+public class Education extends Model implements UserBelonging {
 
 	public static class Builder {
 		@Constraints.Required()
@@ -31,16 +33,6 @@ public class Education extends Model {
 		public Education generate(User user, School school) {
 			return new Education(user, school, (DurationMonth), (StartYear), Promotion, Major, (IsHomeUniversity),
 					(IsCurrentEducation));
-		}
-
-		public Education replace(Education e) {
-			e.DurationMonth = (DurationMonth);
-			e.StartYear = (this.StartYear);
-			e.Promotion = this.Promotion;
-			e.Major = this.Major;
-			e.IsHomeUniversity = (this.IsHomeUniversity);
-			e.IsCurrentEducation = (this.IsCurrentEducation);
-			return e;
 		}
 
 		public Integer getDurationMonth() {
@@ -98,13 +90,13 @@ public class Education extends Model {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "iduser")
 	private User User;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "idschool")
 	private School School;
 	private Integer DurationMonth;
 	private Integer StartYear;
 	private String Promotion;
-	@Searchable(userFetchPath = "User.myEducation")
+	@SearcheableField(userFetchPath = "User.myEducation")
 	private String Major;
 	private Boolean IsHomeUniversity;
 	private Boolean IsCurrentEducation;
@@ -114,7 +106,7 @@ public class Education extends Model {
 
 	public static Finder<Long, Education> find = new Finder<Long, Education>(Education.class);
 
-	protected Education(models.User user, models.School school, Integer durationMonth, Integer startYear,
+	private Education(models.User user, models.School school, Integer durationMonth, Integer startYear,
 			String promotion, String major, Boolean isHomeUniversity, Boolean isCurrentEducation) {
 		User = user;
 		School = school;
@@ -132,6 +124,11 @@ public class Education extends Model {
 				+ ", StartYear=" + StartYear + ", Promotion=" + Promotion + ", Major=" + Major + ", IsHomeUniversity="
 				+ IsHomeUniversity + ", IsCurrentEducation=" + IsCurrentEducation + ", VerifEmail=" + VerifEmail
 				+ ", IsEmailVerified=" + IsEmailVerified + "]";
+	}
+
+	@Override
+	public boolean hasRight(models.User user) {
+		return this.User.getId().equals(user.getId());
 	}
 
 	public Long getId() {

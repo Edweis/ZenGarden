@@ -1,5 +1,6 @@
 package controllers;
 
+import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
@@ -9,7 +10,6 @@ import play.mvc.Results;
 
 import com.google.inject.Inject;
 
-import controllers.SignTools.LoginUser;
 import models.User;
 
 public class SignTools extends Controller {
@@ -65,7 +65,7 @@ public class SignTools extends Controller {
 		User u = User.authenticate(email, password);
 		if (u != null) {
 			Controller.session().clear();
-			Controller.session(USER_S, u.Id.toString());
+			Controller.session(USER_S, u.getId().toString());
 			return true;
 		} else {
 			return false;
@@ -74,6 +74,7 @@ public class SignTools extends Controller {
 
 	public Result logout() {
 		session().clear();
+		Logger.debug("Logged out");
 		return redirect(routes.MainTools.home());
 	}
 

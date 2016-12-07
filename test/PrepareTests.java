@@ -14,7 +14,7 @@ import org.junit.BeforeClass;
 
 import com.avaje.ebean.Ebean;
 
-import models.User;
+import controllers.MainTools;
 
 public abstract class PrepareTests {
 	private static final String YML_FILE = "/public/ydata.yml";
@@ -53,12 +53,12 @@ public abstract class PrepareTests {
 			Ebean.execute(Ebean.createCallableSql(dropDdl));
 			Ebean.execute(Ebean.createCallableSql(createDdl));
 
-			if (User.find.findRowCount() == 0) {
-				List<?> l = (List<?>) Yaml.load(YML_FILE);
-				for (Object i : l) {
-					Ebean.save(i);
-				}
+			List<?> l = (List<?>) Yaml.load(MainTools.YAML_FILE_NAM);
+
+			for (Object i : l) {
+				Ebean.save(i);
 			}
+
 		}
 
 	}

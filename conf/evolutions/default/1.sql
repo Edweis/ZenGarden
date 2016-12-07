@@ -6,7 +6,7 @@
 create table appointment (
   id                            bigint auto_increment not null,
   title                         varchar(255) not null,
-  date                          timestamp,
+  date                          datetime(6),
   place                         varchar(255),
   price                         integer,
   comment                       varchar(255),
@@ -44,10 +44,10 @@ create table education (
   start_year                    integer,
   promotion                     varchar(255),
   major                         varchar(255),
-  is_home_university            boolean,
-  is_current_education          boolean,
+  is_home_university            tinyint(1) default 0,
+  is_current_education          tinyint(1) default 0,
   verif_email                   varchar(255),
-  is_email_verified             boolean,
+  is_email_verified             tinyint(1) default 0,
   constraint pk_education primary key (id)
 );
 
@@ -73,13 +73,13 @@ create table message (
   idwriter                      bigint not null,
   idchat                        bigint not null,
   content                       varchar(255) not null,
-  date                          timestamp not null,
+  date                          datetime(6) not null,
   constraint pk_message primary key (id)
 );
 
 create table room (
   id                            bigint auto_increment not null,
-  ongoing                       boolean,
+  ongoing                       tinyint(1) default 0,
   idchat                        bigint,
   idappointment                 bigint,
   constraint uq_room_idchat unique (idchat),
@@ -117,7 +117,7 @@ create table user (
   introduction_text             varchar(255),
   appointment_price             varchar(255),
   rating_result                 integer,
-  date_registration             timestamp,
+  date_registration             datetime(6),
   idnationality                 bigint,
   constraint pk_user primary key (id)
 );
@@ -134,10 +134,10 @@ create table work_cursus (
   id                            bigint auto_increment not null,
   iduser                        bigint,
   idwork                        bigint,
-  start_date                    timestamp,
+  start_date                    date,
   duration_month                integer,
   position                      varchar(255),
-  is_current_work               boolean,
+  is_current_work               tinyint(1) default 0,
   constraint pk_work_cursus primary key (id)
 );
 
@@ -194,55 +194,55 @@ create index ix_work_cursus_idwork on work_cursus (idwork);
 
 # --- !Downs
 
-alter table contact drop constraint if exists fk_contact_iduser;
-drop index if exists ix_contact_iduser;
+alter table contact drop foreign key fk_contact_iduser;
+drop index ix_contact_iduser on contact;
 
-alter table education drop constraint if exists fk_education_iduser;
-drop index if exists ix_education_iduser;
+alter table education drop foreign key fk_education_iduser;
+drop index ix_education_iduser on education;
 
-alter table education drop constraint if exists fk_education_idschool;
-drop index if exists ix_education_idschool;
+alter table education drop foreign key fk_education_idschool;
+drop index ix_education_idschool on education;
 
-alter table experience drop constraint if exists fk_experience_iduser;
-drop index if exists ix_experience_iduser;
+alter table experience drop foreign key fk_experience_iduser;
+drop index ix_experience_iduser on experience;
 
-alter table funding drop constraint if exists fk_funding_iduser;
-drop index if exists ix_funding_iduser;
+alter table funding drop foreign key fk_funding_iduser;
+drop index ix_funding_iduser on funding;
 
-alter table funding drop constraint if exists fk_funding_idscholarship;
-drop index if exists ix_funding_idscholarship;
+alter table funding drop foreign key fk_funding_idscholarship;
+drop index ix_funding_idscholarship on funding;
 
-alter table message drop constraint if exists fk_message_idwriter;
-drop index if exists ix_message_idwriter;
+alter table message drop foreign key fk_message_idwriter;
+drop index ix_message_idwriter on message;
 
-alter table message drop constraint if exists fk_message_idchat;
-drop index if exists ix_message_idchat;
+alter table message drop foreign key fk_message_idchat;
+drop index ix_message_idchat on message;
 
-alter table room drop constraint if exists fk_room_idchat;
+alter table room drop foreign key fk_room_idchat;
 
-alter table room drop constraint if exists fk_room_idappointment;
-drop index if exists ix_room_idappointment;
+alter table room drop foreign key fk_room_idappointment;
+drop index ix_room_idappointment on room;
 
-alter table chair drop constraint if exists fk_chair_room;
-drop index if exists ix_chair_room;
+alter table chair drop foreign key fk_chair_room;
+drop index ix_chair_room on chair;
 
-alter table chair drop constraint if exists fk_chair_user;
-drop index if exists ix_chair_user;
+alter table chair drop foreign key fk_chair_user;
+drop index ix_chair_user on chair;
 
-alter table school drop constraint if exists fk_school_idcountry;
-drop index if exists ix_school_idcountry;
+alter table school drop foreign key fk_school_idcountry;
+drop index ix_school_idcountry on school;
 
-alter table user drop constraint if exists fk_user_idnationality;
-drop index if exists ix_user_idnationality;
+alter table user drop foreign key fk_user_idnationality;
+drop index ix_user_idnationality on user;
 
-alter table work drop constraint if exists fk_work_idcountry;
-drop index if exists ix_work_idcountry;
+alter table work drop foreign key fk_work_idcountry;
+drop index ix_work_idcountry on work;
 
-alter table work_cursus drop constraint if exists fk_work_cursus_iduser;
-drop index if exists ix_work_cursus_iduser;
+alter table work_cursus drop foreign key fk_work_cursus_iduser;
+drop index ix_work_cursus_iduser on work_cursus;
 
-alter table work_cursus drop constraint if exists fk_work_cursus_idwork;
-drop index if exists ix_work_cursus_idwork;
+alter table work_cursus drop foreign key fk_work_cursus_idwork;
+drop index ix_work_cursus_idwork on work_cursus;
 
 drop table if exists appointment;
 
