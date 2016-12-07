@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 import com.avaje.ebean.Model;
 
-import models.annotations.Searchable;
+import models.tools.Searchable;
 
 @Entity
 public class Experience extends Model {

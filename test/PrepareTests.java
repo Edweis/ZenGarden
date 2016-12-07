@@ -1,5 +1,7 @@
 import play.Application;
+import play.Logger;
 import play.libs.Yaml;
+import play.mvc.Result;
 import play.test.Helpers;
 
 import java.io.IOException;
@@ -76,5 +78,10 @@ public abstract class PrepareTests {
 		String[] upsDowns = splittedEvolutionContent[1].split("# --- !Downs");
 		createDdl = upsDowns[0];
 		dropDdl = upsDowns[1];
+	}
+
+	protected void displayHeader(Result result) {
+		Logger.info(result.headers().keySet().toString());
+		Logger.info(result.headers().values().toString());
 	}
 }

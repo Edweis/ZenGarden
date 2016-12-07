@@ -1,4 +1,4 @@
-package models.annotations;
+package models.tools;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

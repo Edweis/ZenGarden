@@ -3,6 +3,7 @@ package controllers;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import models.Country;
 import models.User;
 
 /**
@@ -18,6 +19,15 @@ public class MainTools extends Controller {
 	 */
 	public Result home() {
 		return ok(views.html.pages.home.render(User.find.all()));
+	}
+
+	public Result resetDB() {
+		Country c = new Country();
+		c.Code2 = "FR";
+		c.Code3 = "FRA";
+		c.Name = "France";
+		c.insert();
+		return ok("done !");
 	}
 
 }

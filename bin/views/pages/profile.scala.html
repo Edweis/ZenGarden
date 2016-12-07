@@ -15,10 +15,10 @@
 				@user.IntroductionText
 			</p>
 			@if(mine){
-			<p id="newIT">
-				<input type="text">@user.IntroductionText</input>
-				<input type="button" class="btn-warning" value="Edit"/>
-				<input type="button" class="btn-danger" value="Cancel"/>
+			<p id="newIT" hidden>
+				<input type="text" >@user.IntroductionText</input>
+				<input type="button" class="btn btn-warning" value="Accept" />
+				<input type="button" class="btn btn-danger" value="Cancel" />
 			</p>
 			<a id="changeIT" href="#">Edit</a> 	
 			}
