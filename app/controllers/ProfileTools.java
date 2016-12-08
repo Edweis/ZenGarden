@@ -1,7 +1,6 @@
 package controllers;
 
 import play.Logger;
-import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -11,9 +10,9 @@ import play.mvc.Security.Authenticated;
 import com.google.inject.Inject;
 
 import models.Country;
-import models.Education;
 import models.School;
 import models.User;
+import models.tools.InteractivePanelObject;
 
 @Authenticated(Secured.class)
 public class ProfileTools extends Controller {
@@ -31,95 +30,46 @@ public class ProfileTools extends Controller {
 	}
 
 	/**
-	 * AJAX action that add an education.
+	 * Action on a panel object. It should look like : <br/>
+	 * <tt>action/clazz[/id]</tt><br/>
+	 * for instance : <br/>
+	 * <tt>edit/education/4523</tt>
 	 * 
-	 * @return the education panel to re-render via javascript.
-	 */
-	public Result addEducation() {
-		Education e;
-		try {
-			e = getEducationFromRequest();
-			e.getSchool().save();
-			e.save();
-			Logger.debug("Education added :\n\t" + e);
-			return educationAJAXReturn();
-		} catch (AskForNewRequestResultException re) {
-			return re.getResult();
-		}
-	}
-
-	/**
-	 * AJAX action that edit an education.
-	 * 
+	 * @param path
 	 * @return
 	 */
-	public Result editEducation(Long educationId) {
-		try {
-			// check if its his
-			Education ee = hasRightOnEducation(educationId);
+	public Result actionOnPanelObject(String action, String clazz, Long id) {
 
-			Education e = getEducationFromRequest();
+		User connectedUser = Secured.connectedUser(ctx());
+		InteractivePanelObject<?> ipo;
+		switch (clazz) {
+		case "education":
+			ipo = new InteractivePanel(connectedUser, ff).new InteractiveEducation();
+			break;
 
-			// replace
-			// TODO to be tested
-			e.setId(ee.getId());
-			e.update();
-
-			Logger.debug("Education updated :\n\tFrom : " + ee + "\n\tTo : " + e);
-			return educationAJAXReturn();
-		} catch (AskForNewRequestResultException re) {
-			return re.getResult();
+		default:
+			return badRequest("class not recognized");
 		}
-	}
+		Logger.warn("in remove section, good");
 
-	public Result deleteEducation(Long educationId) {
-		try {
-			Education ee = hasRightOnEducation(educationId);
-			ee.delete();
-			Logger.debug("Education deleted :\n\t" + ee);
-			return educationAJAXReturn();
-		} catch (AskForNewRequestResultException e) {
-			return e.getResult();
-		}
-	}
+		switch (action) {
+		case "add":
+			return ipo.addObject();
+		case "remove":
+			if (id == 0) {
+				return badRequest("bad id");
+			}
+			return ipo.removeObject(id, connectedUser);
+		case "edit":
+			if (id == 0) {
+				return badRequest("bad id");
+			}
+			return ipo.editObject(id, connectedUser);
 
-	private Education getEducationFromRequest() throws AskForNewRequestResultException {
-		Form<Education.Builder> ef = ff.form(Education.Builder.class).bindFromRequest();
-		Form<School.Builder> es = ff.form(School.Builder.class).bindFromRequest();
-
-		if (ef.hasErrors()) {
-			throw new AskForNewRequestResultException(Results.badRequest(ef.globalError().message()));
-		}
-		if (es.hasErrors()) {
-			throw new AskForNewRequestResultException(Results.badRequest(es.globalError().message()));
+		default:
+			return badRequest("action not recognized");
 		}
 
-		// submit
-		User u = Secured.connectedUser(ctx());
-		School s = es.get().generate();
-		Education e = ef.get().generate(u, s);
-
-		return e;
-
-	}
-
-	private Education hasRightOnEducation(Long educationId) throws AskForNewRequestResultException {
-		Education e = Education.find.byId(educationId);
-		if (e == null) {
-			throw new AskForNewRequestResultException(Results.notFound("education id: " + educationId));
-		}
-		User cu = Secured.connectedUser(ctx());
-		if (!e.getUser().equals(cu)) {
-			throw new AskForNewRequestResultException(Results.unauthorized());
-		}
-
-		return e;
-	}
-
-	private Result educationAJAXReturn() {
-		User u = Secured.connectedUser(ctx());
-
-		return ok(views.html.inc.profile.educationPanel.render(u.myEducation, true));
 	}
 
 	public Result display(Long userId) {

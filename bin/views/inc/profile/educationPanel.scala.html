@@ -3,7 +3,7 @@
 
 @mainPanel("Education"){
 	@le.map(e=>
-		itemPanel(mine, routes.ProfileTools.deleteEducation(), e.getId)(
+		itemPanel(mine, routes.ProfileTools.actionOnPanelObject("remove","education",e.getId), e.getId)(
 			Html(
 				 "("+e.getSchool.getId+")"+
 				 e.getSchool.getName+","+
@@ -16,7 +16,7 @@
 	)
 }{
 	@if(mine){
-		@formPanel(routes.ProfileTools.addEducation()){
+		@formPanel(routes.ProfileTools.actionOnPanelObject("add","education",0)){
 			<p>
 				@forms.school()
 				<input type="text" placeholder="month spent" name="DurationMonth"/>

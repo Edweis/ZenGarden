@@ -1,2 +1,2 @@
-@(mine: Boolean, deleteRoute:String, itemId:Long)(content: Html)
+@(mine: Boolean, deleteRoute: Call, itemId:Long)(content: Html)
 	<li>@content @if(mine){<span><a href="#" class="edit" data-item-id="@itemId">Edit</a><a href="@deleteRoute" class="delete" >Delete</a></span>}</li>

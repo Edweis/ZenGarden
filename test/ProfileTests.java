@@ -58,7 +58,7 @@ public class ProfileTests extends PrepareTests {
 		 * ADD NEW EDUCATION
 		 */
 		RequestBuilder req = new RequestBuilder().method(Helpers.POST).session(SignTools.USER_S, u.Id.toString())
-				.bodyForm(map).uri(routes.ProfileTools.addEducation().url());
+				.bodyForm(map).uri(routes.ProfileTools.actionOnPanelObject("add", "education", 0).url());
 		Result result = play.test.Helpers.route(req);
 
 		assertEquals(200, result.status());
@@ -75,6 +75,7 @@ public class ProfileTests extends PrepareTests {
 
 		assertTrue(hasThisEd);
 		assertNotNull(Education.find.byId(idOfThisEd).getSchool());
+		Logger.debug(routes.ProfileTools.actionOnPanelObject("remove", "education", idOfThisEd).url());
 
 		/**
 		 * DELETE WITHOUT RIGHTS
@@ -89,7 +90,7 @@ public class ProfileTests extends PrepareTests {
 		u2.save();
 
 		req = new RequestBuilder().session(SignTools.USER_S, u2.Id.toString()).method(Helpers.GET)
-				.uri(routes.ProfileTools.deleteEducation(idOfThisEd).url());
+				.uri(routes.ProfileTools.actionOnPanelObject("remove", "education", idOfThisEd).url());
 		result = play.test.Helpers.route(req);
 
 		assertEquals(401, result.status());
@@ -100,7 +101,7 @@ public class ProfileTests extends PrepareTests {
 		 */
 
 		req = new RequestBuilder().session(SignTools.USER_S, u.Id.toString()).method(Helpers.GET)
-				.uri(routes.ProfileTools.deleteEducation(idOfThisEd).url());
+				.uri(routes.ProfileTools.actionOnPanelObject("remove", "education", idOfThisEd).url());
 		result = play.test.Helpers.route(req);
 
 		assertEquals(200, result.status());

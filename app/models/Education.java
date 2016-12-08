@@ -15,9 +15,10 @@ import javax.validation.constraints.Pattern;
 import com.avaje.ebean.Model;
 
 import models.tools.Searchable;
+import models.tools.UserBelonging;
 
 @Entity
-public class Education extends Model {
+public class Education extends Model implements UserBelonging {
 
 	public static class Builder {
 		@Constraints.Required()
@@ -133,6 +134,11 @@ public class Education extends Model {
 				+ ", StartYear=" + StartYear + ", Promotion=" + Promotion + ", Major=" + Major + ", IsHomeUniversity="
 				+ IsHomeUniversity + ", IsCurrentEducation=" + IsCurrentEducation + ", VerifEmail=" + VerifEmail
 				+ ", IsEmailVerified=" + IsEmailVerified + "]";
+	}
+
+	@Override
+	public boolean hasRight(models.User user) {
+		return this.User.Id.equals(user.Id);
 	}
 
 	public Long getId() {
