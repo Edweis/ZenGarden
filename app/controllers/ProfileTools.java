@@ -46,6 +46,15 @@ public class ProfileTools extends Controller {
 		case "education":
 			ipo = new InteractivePanel(connectedUser, ff).new InteractiveEducation();
 			break;
+		case "scholarship":
+			ipo = new InteractivePanel(connectedUser, ff).new InteractiveScholarship();
+			break;
+		case "experience":
+			ipo = new InteractivePanel(connectedUser, ff).new InteractiveExperience();
+			break;
+		case "work":
+			ipo = new InteractivePanel(connectedUser, ff).new InteractiveWork();
+			break;
 
 		default:
 			return badRequest("class not recognized");

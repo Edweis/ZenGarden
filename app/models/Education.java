@@ -35,16 +35,6 @@ public class Education extends Model implements UserBelonging {
 					(IsCurrentEducation));
 		}
 
-		public Education replace(Education e) {
-			e.DurationMonth = (DurationMonth);
-			e.StartYear = (this.StartYear);
-			e.Promotion = this.Promotion;
-			e.Major = this.Major;
-			e.IsHomeUniversity = (this.IsHomeUniversity);
-			e.IsCurrentEducation = (this.IsCurrentEducation);
-			return e;
-		}
-
 		public Integer getDurationMonth() {
 			return DurationMonth;
 		}
@@ -116,7 +106,7 @@ public class Education extends Model implements UserBelonging {
 
 	public static Finder<Long, Education> find = new Finder<Long, Education>(Education.class);
 
-	protected Education(models.User user, models.School school, Integer durationMonth, Integer startYear,
+	private Education(models.User user, models.School school, Integer durationMonth, Integer startYear,
 			String promotion, String major, Boolean isHomeUniversity, Boolean isCurrentEducation) {
 		User = user;
 		School = school;

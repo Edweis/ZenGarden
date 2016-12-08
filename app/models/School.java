@@ -44,13 +44,6 @@ public class School extends Model {
 			}
 		}
 
-		public School replace(School s) {
-			s.Name = this.schoolName;
-			s.City = this.schoolCity;
-			s.Country = models.Country.getFromCode3(countryCode3);
-			return s;
-		}
-
 	}
 
 	@Id
@@ -64,7 +57,7 @@ public class School extends Model {
 	private Country Country;
 	private String City;
 
-	protected School(String name, Country country, String city) {
+	private School(String name, Country country, String city) {
 		Name = name;
 		Country = country;
 		City = city;

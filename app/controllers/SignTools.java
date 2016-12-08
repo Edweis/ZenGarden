@@ -1,5 +1,6 @@
 package controllers;
 
+import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
@@ -74,6 +75,7 @@ public class SignTools extends Controller {
 
 	public Result logout() {
 		session().clear();
+		Logger.debug("Logged out");
 		return redirect(routes.MainTools.home());
 	}
 
