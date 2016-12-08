@@ -66,9 +66,7 @@ public class ProfileTests extends PrepareTests {
 		boolean hasThisEd = false;
 		Long idOfThisEd = null;
 		u.refresh();
-		Logger.warn(u.myEducation.size() + "");
 		for (Education e : u.myEducation) {
-			Logger.warn(e.toString());
 			if (e.getDurationMonth() == 13 && e.getSchool().getName().equals("mySchool")) {
 				hasThisEd = true;
 				idOfThisEd = e.getId();
@@ -76,6 +74,7 @@ public class ProfileTests extends PrepareTests {
 		}
 
 		assertTrue(hasThisEd);
+		assertNotNull(Education.find.byId(idOfThisEd).getSchool());
 
 		/**
 		 * DELETE WITHOUT RIGHTS

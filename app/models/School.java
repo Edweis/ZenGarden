@@ -72,7 +72,7 @@ public class School extends Model {
 
 	@Override
 	public String toString() {
-		return Name + " (" + Country.Code3 + ")";
+		return getName() + " (" + getCountry().Code3 + ")";
 	}
 
 	public static Finder<Long, School> find = new Finder<Long, School>(School.class);

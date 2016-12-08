@@ -2,6 +2,7 @@ package models;
 
 import play.data.validation.Constraints;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -98,7 +99,7 @@ public class Education extends Model {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "iduser")
 	private User User;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "idschool")
 	private School School;
 	private Integer DurationMonth;
