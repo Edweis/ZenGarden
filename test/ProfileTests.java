@@ -9,18 +9,23 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
 import controllers.SignTools;
-import controllers.routes;
 import models.Country;
 import models.Education;
 import models.User;
 
 public class ProfileTests extends PrepareTests {
 
-	public User Connect() {
+	Map<String, String> connect = new HashMap<String, String>();
+	Map<String, String> wrongConnect = new HashMap<String, String>();
+
+	private User connectedUser;
+
+	public void Connect() {
 		User u;
 
 		if (User.find.all().size() == 0) {
@@ -32,12 +37,13 @@ public class ProfileTests extends PrepareTests {
 
 		Logger.info("connected with : " + u);
 
-		return u;
+		connectedUser = u;
+		connect.clear();
+		connect.put(SignTools.USER_S, u.getId().toString());
 	}
 
 	@Test
 	public void addAndDeleteEducation() {
-		User u = Connect();
 
 		Country france = new Country();
 		france.Name = "France";
@@ -57,16 +63,16 @@ public class ProfileTests extends PrepareTests {
 		/**
 		 * ADD NEW EDUCATION
 		 */
-		RequestBuilder req = new RequestBuilder().method(Helpers.POST).session(SignTools.USER_S, u.Id.toString())
-				.bodyForm(map).uri(routes.ProfileTools.actionOnPanelObject("add", "education", 0).url());
+		RequestBuilder req = new RequestBuilder().method(Helpers.POST).session(connect).bodyForm(map)
+				.uri(routes.ProfileTools.actionOnPanelObject("add", "education", 0).url());
 		Result result = play.test.Helpers.route(req);
 
 		assertEquals(200, result.status());
 
 		boolean hasThisEd = false;
 		Long idOfThisEd = null;
-		u.refresh();
-		for (Education e : u.myEducation) {
+
+		for (Education e : connectedUser.getMyEducation()) {
 			if (e.getDurationMonth() == 13 && e.getSchool().getName().equals("mySchool")) {
 				hasThisEd = true;
 				idOfThisEd = e.getId();
@@ -89,7 +95,9 @@ public class ProfileTests extends PrepareTests {
 		User u2 = tu2.generate();
 		u2.save();
 
-		req = new RequestBuilder().session(SignTools.USER_S, u2.Id.toString()).method(Helpers.GET)
+		wrongConnect.put(SignTools.USER_S, u2.getId().toString());
+
+		req = new RequestBuilder().session(wrongConnect).method(Helpers.GET)
 				.uri(routes.ProfileTools.actionOnPanelObject("remove", "education", idOfThisEd).url());
 		result = play.test.Helpers.route(req);
 
@@ -100,7 +108,7 @@ public class ProfileTests extends PrepareTests {
 		 * DELETE WITH RIGHTS
 		 */
 
-		req = new RequestBuilder().session(SignTools.USER_S, u.Id.toString()).method(Helpers.GET)
+		req = new RequestBuilder().session(connect).method(Helpers.GET)
 				.uri(routes.ProfileTools.actionOnPanelObject("remove", "education", idOfThisEd).url());
 		result = play.test.Helpers.route(req);
 

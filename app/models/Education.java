@@ -14,7 +14,7 @@ import javax.validation.constraints.Pattern;
 
 import com.avaje.ebean.Model;
 
-import models.tools.Searchable;
+import models.tools.SearcheableField;
 import models.tools.UserBelonging;
 
 @Entity
@@ -96,7 +96,7 @@ public class Education extends Model implements UserBelonging {
 	private Integer DurationMonth;
 	private Integer StartYear;
 	private String Promotion;
-	@Searchable(userFetchPath = "User.myEducation")
+	@SearcheableField(userFetchPath = "User.myEducation")
 	private String Major;
 	private Boolean IsHomeUniversity;
 	private Boolean IsCurrentEducation;
@@ -128,7 +128,7 @@ public class Education extends Model implements UserBelonging {
 
 	@Override
 	public boolean hasRight(models.User user) {
-		return this.User.Id.equals(user.Id);
+		return this.User.getId().equals(user.getId());
 	}
 
 	public Long getId() {

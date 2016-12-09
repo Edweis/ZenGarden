@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 
 import com.avaje.ebean.Model;
 
-import models.tools.Searchable;
+import models.tools.SearcheableField;
 
 @Entity
 public class Work extends Model {
@@ -66,7 +66,7 @@ public class Work extends Model {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
-	@Searchable(userFetchPath = "User.myWorkcursus.Work")
+	@SearcheableField(userFetchPath = "User.myWorkcursus.Work")
 	private String CompanyName;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcountry")

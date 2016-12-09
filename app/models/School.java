@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 import com.avaje.ebean.Model;
 
-import models.tools.Searchable;
+import models.tools.SearcheableField;
 
 @Entity
 public class School extends Model {
@@ -49,7 +49,7 @@ public class School extends Model {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
-	@Searchable(userFetchPath = "User.myEducation.School")
+	@SearcheableField(userFetchPath = "User.myEducation.School")
 	private String Name;
 	@NotNull(message = "Please insert a country")
 	@ManyToOne(fetch = FetchType.EAGER)

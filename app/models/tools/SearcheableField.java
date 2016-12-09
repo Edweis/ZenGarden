@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * <li>is linked to a database column</li>
  * <li>has getter and setter</li>
  * </ul>
- * All field tagged with @{@link Searchable} will be searchable in
+ * All field tagged with @{@link SearcheableField} will be searchable in
  * <tt>search.xhtml</tt>.
  * 
  * @author François Rullière
@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { ElementType.FIELD })
-public @interface Searchable {
+public @interface SearcheableField {
 	/**
 	 * Label that will be displayed in the filter. By default it will be the
 	 * name of the field.
@@ -37,7 +37,7 @@ public @interface Searchable {
 	 * <tt>Country</tt> class : </br>
 	 * <tt>User.myEducation.School.Country</tt> or
 	 * <tt>User.Nationality</tt></br>
-	 * It seams that all @{@link Searchable} fields from the same class will
+	 * It seams that all @{@link SearcheableField} fields from the same class will
 	 * have the same value of <tt>userFetchPath</tt>.
 	 * 
 	 * @return

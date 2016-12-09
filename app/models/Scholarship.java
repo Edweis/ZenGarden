@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 import com.avaje.ebean.Model;
 
-import models.tools.Searchable;
+import models.tools.SearcheableField;
 
 @Entity
 public class Scholarship extends Model {
@@ -36,7 +36,7 @@ public class Scholarship extends Model {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
-	@Searchable(userFetchPath = "User.myFunding.Scholarship")
+	@SearcheableField(userFetchPath = "User.myFunding.Scholarship")
 	@NotNull(message = "Please insert a title")
 	private String Title;
 	@NotNull(message = "Please insert a year")

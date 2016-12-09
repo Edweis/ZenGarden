@@ -7,7 +7,7 @@ import play.mvc.Results;
 
 import com.avaje.ebean.Model;
 
-import controllers.AskForNewRequestResultException;
+import controllers.tools.AskForNewRequestResultException;
 import models.User;
 
 public interface InteractivePanelObject<T extends Model & UserBelonging> {

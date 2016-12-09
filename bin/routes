@@ -3,23 +3,23 @@
 # ~~~~
 
 # Home
-GET    /                  controllers.MainTools.home()
+GET    /                             controllers.MainTools.home()
 
 # Sign
-GET    /signin            controllers.SignTools.renderSignIn()
-POST   /signin            controllers.SignTools.signIn()
-GET    /whoareyou         controllers.SignTools.renderSignUpError(errorMessage:String ?="")
-GET    /signup            controllers.SignTools.renderSignUp()
-POST   /signup            controllers.SignTools.signUp()
-GET    /logout            controllers.SignTools.logout()
+GET    /signin                       controllers.SignTools.renderSignIn()
+POST   /signin                       controllers.SignTools.signIn()
+GET    /whoareyou                    controllers.SignTools.renderSignUpError(errorMessage:String ?="")
+GET    /signup                       controllers.SignTools.renderSignUp()
+POST   /signup                       controllers.SignTools.signUp()
+GET    /logout                       controllers.SignTools.logout()
 
 # Profile 
 # NB: GET for POST  .actionOnPanelObject to authorize deletion via <a href="..."> links
-GET    /profile           controllers.ProfileTools.index()
-GET    /profile/:userId   controllers.ProfileTools.display(userId: Long)
-POST   /profile/:action/:clazz     controllers.ProfileTools.actionOnPanelObject(action: String, clazz: String, id: Long = 0)
-POST   /profile/:action/:clazz/:id     controllers.ProfileTools.actionOnPanelObject(action: String, clazz: String, id: Long)
-GET   /profile/:action/:clazz/:id     controllers.ProfileTools.actionOnPanelObject(action: String, clazz: String, id: Long)
+GET    /profile                      controllers.ProfileTools.index()
+GET    /profile/:userId              controllers.ProfileTools.display(userId: Long)
+POST   /profile/:action/:clazz       controllers.ProfileTools.actionOnPanelObject(action: String, clazz: String, id: Long = 0)
+POST   /profile/:action/:clazz/:id   controllers.ProfileTools.actionOnPanelObject(action: String, clazz: String, id: Long)
+GET    /profile/:action/:clazz/:id   controllers.ProfileTools.actionOnPanelObject(action: String, clazz: String, id: Long)
 # Map static resources from the /public folder to the /assets URL path
-GET    /assets/*file      controllers.Assets.versioned(path="/public", file: Asset)
-GET    /resetDB           controllers.MainTools.resetDB()
+GET    /assets/*file                 controllers.Assets.versioned(path="/public", file: Asset)
+GET    /resetDB                      controllers.MainTools.resetDB()

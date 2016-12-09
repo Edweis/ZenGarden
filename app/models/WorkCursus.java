@@ -151,7 +151,7 @@ public class WorkCursus extends Model implements UserBelonging {
 
 	@Override
 	public boolean hasRight(models.User user) {
-		return this.User.Id == user.Id;
+		return this.User.getId().equals(user.getId());
 	}
 
 }

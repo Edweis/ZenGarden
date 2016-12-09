@@ -37,7 +37,7 @@ public class Room extends Model {
 	public String participantsToString() {
 		String res = "";
 		for (User u : Participants) {
-			res = res + u.FirstName + ", ";
+			res = res + u.getFirstName() + ", ";
 		}
 		res = res.substring(0, res.length() - 2);
 		return res;

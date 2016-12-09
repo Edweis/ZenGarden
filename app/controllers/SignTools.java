@@ -10,7 +10,6 @@ import play.mvc.Results;
 
 import com.google.inject.Inject;
 
-import controllers.SignTools.LoginUser;
 import models.User;
 
 public class SignTools extends Controller {
@@ -66,7 +65,7 @@ public class SignTools extends Controller {
 		User u = User.authenticate(email, password);
 		if (u != null) {
 			Controller.session().clear();
-			Controller.session(USER_S, u.Id.toString());
+			Controller.session(USER_S, u.getId().toString());
 			return true;
 		} else {
 			return false;
