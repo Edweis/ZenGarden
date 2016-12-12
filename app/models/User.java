@@ -243,6 +243,21 @@ public class User extends Model {
 		return "User [Id=" + Id + ", FirstName=" + FirstName + "]";
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof User)) {
+			return false;
+		}
+		if (((User) obj).getId().equals(this.getId())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public Long getId() {
 		return Id;
 	}

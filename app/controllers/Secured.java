@@ -20,7 +20,12 @@ public class Secured extends Security.Authenticator {
 	}
 
 	public static User connectedUser(Context ctx) {
-		return User.find.byId(Long.parseLong(getUserIdString(ctx)));
+		Long id = getUserIdLong(ctx);
+		if (id != null) {
+			return User.find.byId(id);
+		} else {
+			return null;
+		}
 	}
 
 	private static String getUserIdString(Context ctx) {
@@ -28,7 +33,12 @@ public class Secured extends Security.Authenticator {
 	}
 
 	public static Long getUserIdLong(Context ctx) {
-		return Long.parseLong(getUserIdString(ctx));
+		String id = getUserIdString(ctx);
+		if (id != null) {
+			return Long.parseLong(id);
+		} else {
+			return null;
+		}
 	}
 
 }

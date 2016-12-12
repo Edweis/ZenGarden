@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * This tag should only be put on a class that : </br>
  * <ul>
- * <li>is in a class that contains a field <tt><i>User</i> User</tt>
+ * <li>is a String</li>
  * <li>is linked to a database column</li>
  * <li>has getter and setter</li>
  * </ul>
@@ -37,8 +37,8 @@ public @interface SearcheableField {
 	 * <tt>Country</tt> class : </br>
 	 * <tt>User.myEducation.School.Country</tt> or
 	 * <tt>User.Nationality</tt></br>
-	 * It seams that all @{@link SearcheableField} fields from the same class will
-	 * have the same value of <tt>userFetchPath</tt>.
+	 * It seams that all @{@link SearcheableField} fields from the same class
+	 * will have the same value of <tt>userFetchPath</tt>.
 	 * 
 	 * @return
 	 */

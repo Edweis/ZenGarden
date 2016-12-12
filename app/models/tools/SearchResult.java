@@ -1,7 +1,7 @@
 package models.tools;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import models.User;
 
@@ -20,17 +20,21 @@ import models.User;
  *
  */
 public class SearchResult {
+
 	private User user;
-	private Map<String, SearchField> matching;
+	private List<String> keys;
+	private List<SearchField> values;
 
 	public SearchResult(User user, String query, SearchField place) {
 		this.user = user;
-		matching = new HashMap<String, SearchField>();
+		keys = new ArrayList<String>();
+		values = new ArrayList<SearchField>();
 		addMatching(query, place);
 	}
 
 	public void addMatching(String query, SearchField place) {
-		matching.put(query, place);
+		keys.add(query);
+		values.add(place);
 	}
 
 	public User getUser() {
@@ -38,11 +42,15 @@ public class SearchResult {
 	}
 
 	public int getMatchingRank() {
-		return matching.size();
+		return keys.size();
 	}
 
-	public Map<String, SearchField> getMatching() {
-		return matching;
+	public List<String> getKeys() {
+		return keys;
+	}
+
+	public List<SearchField> getValues() {
+		return values;
 	}
 
 }

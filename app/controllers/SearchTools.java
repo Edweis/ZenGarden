@@ -1,6 +1,5 @@
 package controllers;
 
-import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -13,8 +12,6 @@ import models.tools.SearchResult;
 public class SearchTools extends Controller {
 
 	public Result display(String queries, String filters) {
-
-		Logger.info("Search with query : " + queries);
 
 		Search mySearch = new Search();
 		mySearch.setQueries(queries == null ? null : queries.split(";"));

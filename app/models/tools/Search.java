@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -146,10 +147,23 @@ public class Search {
 			// render all user that has query in their place
 			Set<User> found = place.search(query);
 
-			// update the storage
+			// update the storage, I use this shitty code and not
+			// .containsKey(u) because containsKey doesn't work.
+			// TODO : find out why
+			User contains;
 			for (User u : found) {
-				if (storage.containsKey(u)) {
-					storage.get(u).addMatching(query, place);
+
+				contains = null;
+				for (Iterator<User> i = storage.keySet().iterator(); i.hasNext();) {
+					User s = (User) i.next();
+					if (s.equals(u)) {
+						contains = s;
+						break;
+					}
+				}
+
+				if (contains != null) {// storage.containsKey(u)
+					storage.get(contains).addMatching(query, place);
 				} else {
 					storage.put(u, new SearchResult(u, query, place));
 				}

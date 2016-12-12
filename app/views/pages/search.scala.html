@@ -19,7 +19,9 @@
 			@for(s <- results){
 				@inc.common.userItem(s.getUser){
 					MR : @s.getMatchingRank <br/>
-					Matching : @s.getMatching
+					Matching : <br/>
+					@s.getKeys<br/>
+					@s.getValues 
 				}
 			}
 			</p>

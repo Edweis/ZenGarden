@@ -19,7 +19,7 @@ public class SearchField {
 	 */
 	@Override
 	public String toString() {
-		return field.toString();
+		return formatFetchPathForEbean();
 	}
 
 	public SearchField(Field field) {
@@ -27,11 +27,8 @@ public class SearchField {
 	}
 
 	public Set<User> search(String query) {
-		// String jpqlQuery = generateJPQLQueryFromField(field);
-
 		String path = formatFetchPathForEbean();
-
-		Set<User> res = User.find.where().eq(path, query).findSet();
+		Set<User> res = User.find.where().like(path, "%" + query + "%").findSet();
 		return res;
 	}
 
