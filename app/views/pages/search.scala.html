@@ -1,3 +1,28 @@
-@(results: List[models.tools.SearchResult])
+@import models.tools.SearchResult
+@import models.tools.SearchField
+@(results: List[SearchResult], search: List[String])
 
-result of the research
+@main("Search"){
+	<div class="col-md-12">
+		<form action="@routes.SearchTools.display()" method="get">
+			<input type="text" name="q" placeholder="What are you looking for ?"/>
+			<input type="hidden" name="f" value=""/>
+			<input type="submit" value="Search"/>
+		</form>
+	</div>	
+	<div class="col-md-12">
+		<h2><b>Search results</b></h2>
+		@if(search==null){
+			<p>No results found</p>
+		}else{
+			<p>
+			@for(s <- results){
+				@inc.common.userItem(s.getUser){
+					MR : @s.getMatchingRank <br/>
+					Matching : @s.getMatching
+				}
+			}
+			</p>
+		}		
+	</div>
+}

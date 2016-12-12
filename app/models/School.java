@@ -20,10 +20,10 @@ public class School extends Model {
 
 	public static class Builder {
 		@Constraints.Required
-		public String schoolName;
-		public String schoolCity;
+		private String schoolName;
+		private String schoolCity;
 		@Constraints.Required
-		public String countryCode3;
+		private String countryCode3;
 
 		public String validate() {
 			if (models.Country.getFromCode3(countryCode3) == null) {
@@ -42,6 +42,30 @@ public class School extends Model {
 			} else {
 				return new School(schoolName, c, schoolCity);
 			}
+		}
+
+		public String getSchoolCity() {
+			return schoolCity;
+		}
+
+		public void setSchoolCity(String schoolCity) {
+			this.schoolCity = schoolCity;
+		}
+
+		public String getCountryCode3() {
+			return countryCode3;
+		}
+
+		public void setCountryCode3(String countryCode3) {
+			this.countryCode3 = countryCode3;
+		}
+
+		public String getSchoolName() {
+			return schoolName;
+		}
+
+		public void setSchoolName(String schoolName) {
+			this.schoolName = schoolName;
 		}
 
 	}
@@ -65,7 +89,7 @@ public class School extends Model {
 
 	@Override
 	public String toString() {
-		return getName() + " (" + getCountry().Code3 + ")";
+		return getName() + " (" + getCountry().getCode3() + ")";
 	}
 
 	public static Finder<Long, School> find = new Finder<Long, School>(School.class);

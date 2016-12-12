@@ -14,7 +14,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import controllers.SignTools;
-import models.Country;
+import controllers.routes;
 import models.Education;
 import models.User;
 
@@ -26,30 +26,15 @@ public class ProfileTests extends PrepareTests {
 	private User connectedUser;
 
 	public void Connect() {
-		User u;
-
-		if (User.find.all().size() == 0) {
-			u = User.create("bob@example.com", "secret", "Bob");
-			u.save();
-		} else {
-			u = User.find.all().get(0);
-		}
-
-		Logger.info("connected with : " + u);
-
-		connectedUser = u;
-		connect.clear();
-		connect.put(SignTools.USER_S, u.getId().toString());
+		connect.put(SignTools.USER_S, "1");
 	}
 
 	@Test
-	public void addAndDeleteEducation() {
+	public void addAndRemoveEducation() {
 
-		Country france = new Country();
-		france.Name = "France";
-		france.Code2 = "FR";
-		france.Code3 = "FRA";
-		france.save();
+		/**
+		 * ADD NEW EDUCATION
+		 */
 
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("DurationMonth", "13");
@@ -60,13 +45,11 @@ public class ProfileTests extends PrepareTests {
 		map.put("countryCode3", "FRA");
 		map.put("schoolName", "mySchool");
 
-		/**
-		 * ADD NEW EDUCATION
-		 */
 		RequestBuilder req = new RequestBuilder().method(Helpers.POST).session(connect).bodyForm(map)
 				.uri(routes.ProfileTools.actionOnPanelObject("add", "education", 0).url());
 		Result result = play.test.Helpers.route(req);
 
+		// tests
 		assertEquals(200, result.status());
 
 		boolean hasThisEd = false;
@@ -86,16 +69,6 @@ public class ProfileTests extends PrepareTests {
 		/**
 		 * DELETE WITHOUT RIGHTS
 		 */
-		// create new user
-		User.Builder tu2 = new User.Builder();
-		tu2.email = "new@mail.fr";
-		tu2.password = "azeryuiop";
-		tu2.confirmation = tu2.password;
-		tu2.firstName = "newGuy";
-		User u2 = tu2.generate();
-		u2.save();
-
-		wrongConnect.put(SignTools.USER_S, u2.getId().toString());
 
 		req = new RequestBuilder().session(wrongConnect).method(Helpers.GET)
 				.uri(routes.ProfileTools.actionOnPanelObject("remove", "education", idOfThisEd).url());
@@ -115,6 +88,19 @@ public class ProfileTests extends PrepareTests {
 		assertEquals(200, result.status());
 		assertNull(Education.find.byId(idOfThisEd));
 
+	}
+
+	@Test
+	public void changeIntrodutionText() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("IntroductionText", "fils de pute");
+
+		RequestBuilder req = new RequestBuilder().method(Helpers.POST).session(connect).bodyForm(map)
+				.uri(routes.ProfileTools.actionOnPanelObject("edit", "user", 0).url());
+		Result result = play.test.Helpers.route(req);
+
+		assertEquals(200, result.status());
+		assertEquals("fils de pute", User.find.where().eq("id", connect.get(SignTools.USER_S)));
 	}
 
 }

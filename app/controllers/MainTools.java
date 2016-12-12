@@ -1,30 +1,22 @@
 package controllers;
 
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.text.csv.CsvReader;
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlWriter;
 
-import models.Appointment;
-import models.Chat;
-import models.Contact;
 import models.Country;
-import models.Education;
-import models.Experience;
-import models.Funding;
-import models.Message;
-import models.Room;
-import models.Scholarship;
-import models.School;
 import models.User;
-import models.Work;
-import models.WorkCursus;
 
 /**
  * This controller contains an action to handle HTTP requests to the
@@ -32,7 +24,9 @@ import models.WorkCursus;
  */
 public class MainTools extends Controller {
 
-	public static final String YAML_FILE_NAM = "public/ydata.yml";
+	public static final String COUNTRIES_FILE_NAME = "public/ycountries.yml";
+	public static final String ENTITIES_FILE_NAME = "public/ydata.yml";
+	public static final String COUNTRY_CSV = "public/countries.csv";
 
 	/**
 	 * Render the Home page
@@ -44,45 +38,53 @@ public class MainTools extends Controller {
 	}
 
 	public Result resetDB() {
-		// Country c = new Country();
-		// c.Code2 = "FR";
-		// c.Code3 = "FRA";
-		// c.Name = "France";
-		// c.insert();
 
-		createYAMLfile();
+		// importCountries();
+		createYAMLfile((List<?>) User.find.all(), ENTITIES_FILE_NAME);
+		createYAMLfile((List<?>) Country.find.all(), COUNTRIES_FILE_NAME);
+		// importYAMLfile();
 
 		return ok("done !").as("text/html");
 
 	}
 
-	private void createYAMLfile() {
+	private void importYAMLfile() {
+		// TODO Auto-generated method stub
+	}
 
-		List<Object> toWrite = new ArrayList<Object>();
+	private void importCountries() {
+		try {
+			File f = new File(COUNTRY_CSV);
 
-		toWrite.add(Appointment.find.all());
-		toWrite.add(Chat.find.all());
-		toWrite.add(Contact.find.all());
-		toWrite.add(Country.find.all());
-		toWrite.add(Education.find.all());
-		toWrite.add(Experience.find.all());
-		toWrite.add(Funding.find.all());
-		toWrite.add(Message.find.all());
-		toWrite.add(Room.find.all());
-		toWrite.add(Scholarship.find.all());
-		toWrite.add(School.find.all());
-		toWrite.add(User.find.all());
-		toWrite.add(Work.find.all());
-		toWrite.add(WorkCursus.find.all());
+			FileReader reader = new FileReader(f);
+
+			CsvReader<Country> csvReader = Ebean.createCsvReader(Country.class);
+
+			csvReader.setPersistBatchSize(20);
+
+			csvReader.addProperty("Name");
+			csvReader.addProperty("Code2");
+			csvReader.addProperty("Code3");
+
+			csvReader.process(reader);
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	private void createYAMLfile(List<?> lo, String fileName) {
 
 		YamlWriter writer = null;
 		try {
-			writer = new YamlWriter(new FileWriter(YAML_FILE_NAM));
+			new File(fileName).delete();
 
-			for (Object o : toWrite) {
-				writer.write(o);
-			}
+			writer = new YamlWriter(new FileWriter(fileName));
 
+			writer.write(lo);
+
+			Logger.warn(lo.size() + " entities inserted.");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

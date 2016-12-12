@@ -10,6 +10,7 @@ import play.mvc.Results;
 
 import com.google.inject.Inject;
 
+import controllers.SignTools.LoginUser;
 import models.User;
 
 public class SignTools extends Controller {
@@ -92,7 +93,7 @@ public class SignTools extends Controller {
 			User.Builder nu = siForm.get();
 			nu.generate();
 
-			SignTools.authenticate(nu.email, nu.password);
+			SignTools.authenticate(nu.getEmail(), nu.getPassword());
 			return redirect(routes.MainTools.home());
 		}
 

@@ -5,6 +5,8 @@ import play.mvc.Result;
 import play.test.Helpers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -14,12 +16,10 @@ import org.junit.BeforeClass;
 
 import com.avaje.ebean.Ebean;
 
-import controllers.MainTools;
-
 public abstract class PrepareTests {
-	private static final String YML_FILE = "/public/ydata.yml";
-	private static final boolean RESET_DB = false;
+	private static final boolean RESET_DB = true;
 
+	List<String> ymalFiles = Arrays.asList("public/ydata.yml", "public/ycountries.yml");
 	protected static Application app;
 	private static String createDdl;
 	private static String dropDdl;
@@ -30,6 +30,9 @@ public abstract class PrepareTests {
 	 */
 	@BeforeClass
 	public static void startApp() {
+
+		List<Object> lo = copyActualDB();
+
 		app = Helpers.fakeApplication(Helpers.inMemoryDatabase());
 		Helpers.start(app);
 
@@ -37,6 +40,11 @@ public abstract class PrepareTests {
 		if (RESET_DB) {
 			readYmlFile();
 		}
+	}
+
+	private static List<Object> copyActualDB() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@AfterClass
@@ -53,7 +61,10 @@ public abstract class PrepareTests {
 			Ebean.execute(Ebean.createCallableSql(dropDdl));
 			Ebean.execute(Ebean.createCallableSql(createDdl));
 
-			List<?> l = (List<?>) Yaml.load(MainTools.YAML_FILE_NAM);
+			ArrayList<Object> l = new ArrayList<Object>();
+			for (String s : ymalFiles) {
+				l.addAll((List<?>) Yaml.load(s));
+			}
 
 			for (Object i : l) {
 				Ebean.save(i);

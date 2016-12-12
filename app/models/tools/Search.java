@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.avaje.ebean.Ebean;
-
-import controllers.tools.WrongConstructionException;
 import models.Country;
 import models.Education;
 import models.Experience;
@@ -33,21 +30,25 @@ public class Search {
 	private List<SearchField> filters;
 
 	/**
-	 * Set the queries of the search
+	 * Set the queries of the search. If null queries is just an empty array.
 	 * 
 	 * @param queries
 	 */
 	public void setQueries(String[] queries) {
-		this.queries = Arrays.asList(queries);
+		this.queries = queries == null ? new ArrayList<String>() : Arrays.asList(queries);
 	}
 
 	/*
-	 * Set the filters of the search
+	 * Set the filters of the search. If null filter is just an empty array.
 	 */
 	public void setFilters(String[] filters) {
 		this.filters = new ArrayList<SearchField>();
-		for (int i = 0; i < filters.length; i++) {
-			this.filters.add(new SearchField(filters[i]));
+		if (filters != null) {
+			for (int i = 0; i < filters.length; i++) {
+				if (!"".equals(filters[i])) {
+					this.filters.add(new SearchField(filters[i]));
+				}
+			}
 		}
 	}
 
@@ -63,7 +64,7 @@ public class Search {
 		List<SearchField> fieldToProcess;
 
 		// initiate fieldToProcess
-		if (filters == null || filters.isEmpty()) {
+		if (filters.isEmpty()) {
 			fieldToProcess = initSearchableFields();
 		} else {
 			fieldToProcess = filters;
@@ -103,33 +104,6 @@ public class Search {
 		return res;
 	}
 
-	public class SearchField {
-		private Field field;
-
-		public SearchField(String fieldInString) {
-			// TODO Auto-generated constructor stub
-		}
-
-		/**
-		 * String that will be displayed in the get request. TODO : improve and
-		 * check.
-		 */
-		@Override
-		public String toString() {
-			return field.toString();
-		}
-
-		public SearchField(Field field) {
-			this.field = field;
-		}
-
-		public Set<User> search(String query) {
-			String jpqlQuery = generateQueryFromSearchableField(field);
-			return Ebean.createQuery(User.class, jpqlQuery).setParameter(1, query).findSet();
-		}
-
-	}
-
 	/**
 	 * Factory that creates {@link SearchResult}s. It can be seen as a Set of
 	 * {@link SearchResult}s that is updated after each
@@ -157,7 +131,8 @@ public class Search {
 		 * @return
 		 */
 		public List<SearchResult> extractResults() {
-			return (List<SearchResult>) storage.values();
+
+			return new ArrayList<SearchResult>(storage.values());
 		}
 
 		/**
@@ -184,43 +159,4 @@ public class Search {
 
 	}
 
-	/**
-	 * Generate the JPQL request from the
-	 * {@link SearcheableField#userFetchPath()}. For example : </br>
-	 * for <tt>fetchPath</tt> = <tt>user.myEducation.School.Country</tt></br>
-	 * it will return </br>
-	 * <tt>SELECT x FROM User x JOIN x.myEducation a JOIN a.School b JOIN b.Country c WHERE c.?1</tt>
-	 * Don't forget to do .addParameter(1, "something") on the query.
-	 * 
-	 * @param fetchPath
-	 * @return
-	 */
-	private static String generateQueryFromSearchableField(Field field) {
-		String res = "SELECT x FROM User x ";
-
-		String className = field.getDeclaringClass().getSimpleName();
-		String userFetchPath = field.getAnnotation(SearcheableField.class).userFetchPath();
-		String fieldName = field.getName();
-
-		if (!userFetchPath.startsWith("User") || !userFetchPath.endsWith(className)) {
-			throw new WrongConstructionException(
-					"The path '" + userFetchPath + "' from the field '" + fieldName + "' in the class '" + className
-							+ "' doesn't starts with 'User' or doesn't ends with '" + className + "'");
-		}
-
-		String[] stones = userFetchPath.split("\\.");
-		String[] argsName = { "x", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" };
-		if (stones.length > 10) {
-			throw new WrongConstructionException(
-					"The path '" + userFetchPath + "' from the field '" + fieldName + "' in the class '" + className
-							+ "' should have a path shorter than 10 table, come look t the code bro.");
-		}
-		for (int i = 1; i < stones.length; i++) {
-			res = res + "JOIN " + argsName[i - 1] + "." + stones[i] + " AS " + argsName[i] + " ";
-		}
-
-		res = res + "WHERE " + argsName[stones.length - 1] + "." + fieldName + " LIKE CONCAT('%', ?1, '%')";
-
-		return res;
-	}
 }

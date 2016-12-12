@@ -6,7 +6,7 @@
 	<div id="nutshell" class="row">
 		<div id="pictureSpace" class="col-md-3">
 			<p class="toggleShadowForm">
-				<img src="@routes.Assets.versioned(user.getPictureExtension)">
+				<img class="img-circle" style="max-height: 200px;max-width: 200px;" src="@routes.Assets.versioned(user.getPictureExtension)">
 			</p>
 			@if(mine){
 			<form  action="@routes.ProfileTools.actionOnPanelObject("edit","user",0)" method="post" enctype="multipart/form-data" style="display: none;">

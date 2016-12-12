@@ -13,11 +13,11 @@ import models.tools.SearcheableField;
 public class Country extends Model {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long Id;
+	private Long Id;
 	@SearcheableField(userFetchPath = "User.myEducation.School.Country")
-	public String Name;
-	public String Code2;
-	public String Code3;
+	private String Name;
+	private String Code2;
+	private String Code3;
 
 	@Override
 	public String toString() {
@@ -28,6 +28,38 @@ public class Country extends Model {
 
 	public static Country getFromCode3(String code3) {
 		return Country.find.where().eq("Code3", code3).findUnique();
+	}
+
+	public Long getId() {
+		return Id;
+	}
+
+	public void setId(Long id) {
+		Id = id;
+	}
+
+	public String getName() {
+		return Name;
+	}
+
+	public void setName(String name) {
+		Name = name;
+	}
+
+	public String getCode2() {
+		return Code2;
+	}
+
+	public void setCode2(String code2) {
+		Code2 = code2;
+	}
+
+	public String getCode3() {
+		return Code3;
+	}
+
+	public void setCode3(String code3) {
+		Code3 = code3;
 	}
 
 }

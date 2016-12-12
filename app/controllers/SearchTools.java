@@ -1,8 +1,10 @@
 package controllers;
 
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.util.Arrays;
 import java.util.List;
 
 import models.tools.Search;
@@ -12,12 +14,14 @@ public class SearchTools extends Controller {
 
 	public Result display(String queries, String filters) {
 
+		Logger.info("Search with query : " + queries);
+
 		Search mySearch = new Search();
-		mySearch.setQueries(queries.split(";"));
-		mySearch.setFilters(filters.split(";"));
+		mySearch.setQueries(queries == null ? null : queries.split(";"));
+		mySearch.setFilters(filters == null ? null : filters.split(";"));
 		List<SearchResult> res = mySearch.process();
 
-		return ok(views.html.pages.search.render(res));
+		return ok(views.html.pages.search.render(res, queries == null ? null : Arrays.asList(queries.split(";"))));
 
 	}
 }

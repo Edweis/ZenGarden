@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import models.User;
-import models.tools.Search.SearchField;
 
 /**
  * Represents a result that has :
@@ -38,7 +37,7 @@ public class SearchResult {
 		return user;
 	}
 
-	public int getMathingRank() {
+	public int getMatchingRank() {
 		return matching.size();
 	}
 

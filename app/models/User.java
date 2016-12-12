@@ -24,6 +24,7 @@ public class User extends Model {
 	private static final String APPLICATION_PATH = "/media/piou/Data/Documents/Developpement/Banquise/green";
 	private static final String ASSETS_PATH = "/public";
 	private static final String PICTURE_PATH = "/images/profile/";
+	private static final String DEFAULT_PICTURE_PATH = "default.jpg";
 
 	/**
 	 * Class that is used to create a user through a form.
@@ -34,19 +35,16 @@ public class User extends Model {
 	public static class Builder {
 		@Constraints.Required
 		@Constraints.MinLength(value = 3)
-		public String firstName;
+		private String firstName;
 		@Constraints.Required
 		@Constraints.Email
-		public String email;
+		private String email;
 		@Constraints.Required
 		@Constraints.MinLength(value = 5)
-		public String password;
+		private String password;
 		@Constraints.Required
 		@Constraints.MinLength(value = 5)
-		public String confirmation;
-
-		public String school;
-		public String country;
+		private String confirmation;
 
 		public String validate() {
 			if (User.find.where().eq("email", email).findUnique() != null) {
@@ -65,6 +63,39 @@ public class User extends Model {
 		public User generate() {
 			return User.create(email, password, firstName);
 		}
+
+		public String getFirstName() {
+			return firstName;
+		}
+
+		public void setFirstName(String firstName) {
+			this.firstName = firstName;
+		}
+
+		public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+		public String getConfirmation() {
+			return confirmation;
+		}
+
+		public void setConfirmation(String confirmation) {
+			this.confirmation = confirmation;
+		}
+
 	}
 
 	/**
@@ -245,7 +276,11 @@ public class User extends Model {
 	}
 
 	public String getPictureExtension() {
-		return PictureExtension;
+		if (this.PictureExtension == null) {
+			return PICTURE_PATH + DEFAULT_PICTURE_PATH;
+		} else {
+			return PictureExtension;
+		}
 	}
 
 	public void setPictureExtension(String pictureExtension) {

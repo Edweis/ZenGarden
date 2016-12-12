@@ -1,0 +1,32 @@
+@(user: User)(debug:Html)
+<div class="col-md-4" data-user-id="@user.getId">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="row">
+				<img class="img-circle" style="max-height: 50px;max-width: 50px;" src="@routes.Assets.versioned(user.getPictureExtension)">
+			</div>
+			<div class="row">
+				<a href="@routes.ProfileTools.display(user.getId)">@user.getFirstName</a>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="row">
+				<ul>
+				@for(e<-user.getMyEducation){
+					<li>@e.getSchool.getName</li>
+				}
+				</ul>
+			</div>
+			<div class="row">
+				<ul>
+				@for(f<-user.getMyFunding){
+					<li>@f.getScholarship.getTitle</li>
+				}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="debug col-md-12">
+		@debug
+	</div>
+</div>					</b:navLink>

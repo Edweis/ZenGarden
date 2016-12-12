@@ -1,3 +1,5 @@
+@import controllers.Secured
+@cu = @{controllers.Secured.connectedUser(Http.Context.current)}
 <div class="container">
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
@@ -21,9 +23,22 @@
 							<span class="sr-only">(current)</span>
 					</a></li>
 					<li><a href="@routes.ProfileTools.index()">Profile</a></li>
+					<li><a href="@routes.SearchTools.display(null, null)">Search</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
+					@if(cu!=null){
 					<li><a href="@routes.SignTools.logout()">Logout</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">Hello @cu.getFirstName<span class="caret"></span></a>
+						<ul class="dropdown-menu">	
+							<li><a href="@routes.ProfileTools.index()">My Profile</a></li>
+							<li><a href="#">My Messages</a></li>
+							<li><a  href="#">My Appointments</a></li>
+							
+						</ul>
+					</li>
+					}else{
 					<li><a href="@routes.SignTools.signIn()">Sign In</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -36,6 +51,7 @@
 							<li><input type="submit">Connect</input></li>
 						</form>
 						</ul></li>
+					}
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
