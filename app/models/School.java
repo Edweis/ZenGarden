@@ -44,7 +44,6 @@ public class School extends Model {
 			}
 		}
 
-<<<<<<< HEAD
 		public String getSchoolCity() {
 			return schoolCity;
 		}
@@ -69,8 +68,6 @@ public class School extends Model {
 			this.schoolName = schoolName;
 		}
 
-=======
->>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 	}
 
 	@Id
@@ -92,11 +89,7 @@ public class School extends Model {
 
 	@Override
 	public String toString() {
-<<<<<<< HEAD
 		return getName() + " (" + getCountry().getCode3() + ")";
-=======
-		return getName() + " (" + getCountry().Code3 + ")";
->>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 	}
 
 	public static Finder<Long, School> find = new Finder<Long, School>(School.class);

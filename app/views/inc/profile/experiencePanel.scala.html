@@ -6,26 +6,4 @@
 	<input type="text" placeholder="Name" name="Name"/>
 	<input type="text" placeholder="Duration" name="Duration"/>
 	<input type="text" placeholder="Details" name="Details"/>
-=======
-@mainPanel("Experience"){
-	@le.map(e=>
-		itemPanel(mine, routes.ProfileTools.actionOnPanelObject("remove","experience",e.getId), e.getId)(
-			Html(
-				e.getName +" - " + e.getDuration + " : " + e.getDetails
-				 
-				 )
-		)
-	)
-}{
-	@if(mine){
-		@formPanel(routes.ProfileTools.actionOnPanelObject("add","experience",0)){
-			<p>
-				<input type="text" placeholder="Name" name="Name"/>
-				<input type="text" placeholder="Duration" name="Duration"/>
-				<input type="text" placeholder="Details" name="Details"/>
-			</p>
-		}
-	}
->>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
-
 }

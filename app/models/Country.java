@@ -13,19 +13,11 @@ import models.tools.SearcheableField;
 public class Country extends Model {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-<<<<<<< HEAD
 	private Long Id;
 	@SearcheableField(userFetchPath = "User.myEducation.School.Country")
 	private String Name;
 	private String Code2;
 	private String Code3;
-=======
-	public Long Id;
-	@SearcheableField(userFetchPath = "User.myEducation.School.Country")
-	public String Name;
-	public String Code2;
-	public String Code3;
->>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 
 	@Override
 	public String toString() {

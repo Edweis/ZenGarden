@@ -1,7 +1,6 @@
 @(le: List[WorkCursus], mine: Boolean)
 @import inc.profile._
 
-<<<<<<< HEAD
 @mainPanel("Work", mine, le){
 	<input type="text" placeholder="StartDate" name="StartDate"/>
 	<input type="text" placeholder="DurationMonth" name="DurationMonth"/>
@@ -10,32 +9,4 @@
 	<input type="text" placeholder="CompanyName" name="CompanyName"/>
 	<input type="text" placeholder="countryCode3" name="countryCode3"/>
 	<input type="text" placeholder="City" name="City"/>
-=======
-@mainPanel("Work"){
-	@le.map(w=>
-		itemPanel(mine, routes.ProfileTools.actionOnPanelObject("remove","work",w.getId), w.getId)(
-			Html(
-				w.getWork.getCompanyName + " in " + 
-				w.getWork.getCountry.Name + " for " + 
-				w.getDurationMonth + " as " +
-				w.getPosition
-				)
-		)
-	)
-}{
-	@if(mine){
-		@formPanel(routes.ProfileTools.actionOnPanelObject("add","work",0)){
-			<p>
-				<input type="text" placeholder="StartDate" name="StartDate"/>
-				<input type="text" placeholder="DurationMonth" name="DurationMonth"/>
-				<input type="text" placeholder="Position" name="Position"/>
-				<input type="checkbox" name=""IsCurrentWork""/>
-				<input type="text" placeholder="CompanyName" name="CompanyName"/>
-				<input type="text" placeholder="countryCode3" name="countryCode3"/>
-				<input type="text" placeholder="City" name="City"/>
-			</p>
-		}
-	}
->>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
-
 }
