@@ -1,7 +1,11 @@
-//.toggleOnForm : display the form next to it, hide itself and the .toggleShadowForm if exists
-//.toggleOfForm : hide the form where it is and show the .toggleOnForm and .toggleShadowForm
 
 $(document).ready(function(){
+	// ################
+	// For formToogable() template
+	// ################
+	//.toggleOnForm : display the form next to it, hide itself and the .toggleShadowForm if exists
+	//.toggleOfForm : hide the form where it is and show the .toggleOnForm and .toggleShadowForm
+	
 	$(".toggleOnForm").click(function(){
 		$(this).hide();
 		$(this).parent().find("form").show();
@@ -40,7 +44,17 @@ $(document).ready(function(){
 				out.replaceWith($.parseHTML(res));
 			}
 		});
-	})
+	});
+	
+	//########
+	//For edit and delete in itemPanel()
+	//########
+	$(".deletePanelItem").click(function(){
+		var item = $(this).closest("li");
+		$.get( $(this).attr("ref"), function( data ) {
+			item.remove();				
+		});
+	});
 	
 	
 });
