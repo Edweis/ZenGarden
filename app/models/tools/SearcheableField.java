@@ -37,8 +37,13 @@ public @interface SearcheableField {
 	 * <tt>Country</tt> class : </br>
 	 * <tt>User.myEducation.School.Country</tt> or
 	 * <tt>User.Nationality</tt></br>
+<<<<<<< HEAD:app/models/tools/SearcheableField.java
 	 * It seams that all @{@link SearcheableField} fields from the same class
 	 * will have the same value of <tt>userFetchPath</tt>.
+=======
+	 * It seams that all @{@link SearcheableField} fields from the same class will
+	 * have the same value of <tt>userFetchPath</tt>.
+>>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873:app/models/tools/SearcheableField.java
 	 * 
 	 * @return
 	 */

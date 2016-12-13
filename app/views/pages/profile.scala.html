@@ -5,6 +5,7 @@
 	<h1>@user.getFirstName's profile</h1>
 	<div id="nutshell" class="row">
 		<div id="pictureSpace" class="col-md-3">
+<<<<<<< HEAD
 			<div class="row">
 				@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
 				<div class="toogleDisplay">
@@ -23,11 +24,36 @@
 				<input type="text" name="IntroductionText" value="@user.getIntroductionText"/>
 				}()
 			</div>
+=======
+			<p class="toggleShadowForm">
+				<img src="@routes.Assets.versioned(user.getPictureExtension)">
+			</p>
+			@if(mine){
+			<form  action="@routes.ProfileTools.actionOnPanelObject("edit","user",0)" method="post" enctype="multipart/form-data" style="display: none;">
+				<input type="file" name="picture" />
+				<input type="submit" class="btn btn-warning" value="Send" />
+				<input type="button" class="btn btn-danger toggleOffForm" value="Cancel" />
+			</form>
+			<a class="toggleOnForm" href="#">Change</a>
+			}
+			<p class="toggleShadowForm">
+				IT : @user.getIntroductionText
+			</p>
+			@if(mine){
+			<form  action="@routes.ProfileTools.actionOnPanelObject("edit","user",0)" method="post" style="display: none;">
+				<input type="text" name="IntroductionText" value="@user.getIntroductionText"/>
+				<input type="submit" class="btn btn-warning" value="Accept" />
+				<input type="button" class="btn btn-danger toggleOffForm" value="Cancel" />
+			</form>
+			<a class="toggleOnForm" href="#">Edit</a> 	
+			}
+>>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 		</div>
 		<div id="nutshellContent" class="col-md-9">
 			<dl>
 				<dt>First Name</dt>
 				<dd>@user.getFirstName</dd>
+<<<<<<< HEAD
 				<dt>Nationality</dt><dd>
 				@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
 				<span class="toogleDisplay">@user.getNationality</span>
@@ -39,6 +65,10 @@
 					}
 				}()</dd>
 				
+=======
+				<dt>Nationality</dt>
+				<dd>@user.getNationality</dd>
+>>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 				<dt>Appointment price</dt>
 				<dd>@user.getAppointmentPrice</dd>
 			</dl>

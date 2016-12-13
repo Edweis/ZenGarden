@@ -10,7 +10,6 @@ import play.mvc.Results;
 
 import com.google.inject.Inject;
 
-import controllers.SignTools.LoginUser;
 import models.User;
 
 public class SignTools extends Controller {

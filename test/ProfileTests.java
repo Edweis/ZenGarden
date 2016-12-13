@@ -14,7 +14,11 @@ import java.util.Map;
 import org.junit.Test;
 
 import controllers.SignTools;
+<<<<<<< HEAD
 import controllers.routes;
+=======
+import models.Country;
+>>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 import models.Education;
 import models.User;
 
@@ -22,15 +26,33 @@ public class ProfileTests extends PrepareTests {
 
 	Map<String, String> connect = new HashMap<String, String>();
 	Map<String, String> wrongConnect = new HashMap<String, String>();
+<<<<<<< HEAD
+=======
 
 	private User connectedUser;
 
+	public void Connect() {
+		User u;
+>>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
+
+	private User connectedUser;
+
+<<<<<<< HEAD
 	public void Connect() {
 		connect.put(SignTools.USER_S, "1");
 	}
 
 	@Test
 	public void addAndRemoveEducation() {
+=======
+		connectedUser = u;
+		connect.clear();
+		connect.put(SignTools.USER_S, u.getId().toString());
+	}
+
+	@Test
+	public void addAndDeleteEducation() {
+>>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 
 		/**
 		 * ADD NEW EDUCATION
@@ -45,6 +67,12 @@ public class ProfileTests extends PrepareTests {
 		map.put("countryCode3", "FRA");
 		map.put("schoolName", "mySchool");
 
+<<<<<<< HEAD
+=======
+		/**
+		 * ADD NEW EDUCATION
+		 */
+>>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 		RequestBuilder req = new RequestBuilder().method(Helpers.POST).session(connect).bodyForm(map)
 				.uri(routes.ProfileTools.actionOnPanelObject("add", "education", 0).url());
 		Result result = play.test.Helpers.route(req);
@@ -69,6 +97,19 @@ public class ProfileTests extends PrepareTests {
 		/**
 		 * DELETE WITHOUT RIGHTS
 		 */
+<<<<<<< HEAD
+=======
+		// create new user
+		User.Builder tu2 = new User.Builder();
+		tu2.email = "new@mail.fr";
+		tu2.password = "azeryuiop";
+		tu2.confirmation = tu2.password;
+		tu2.firstName = "newGuy";
+		User u2 = tu2.generate();
+		u2.save();
+
+		wrongConnect.put(SignTools.USER_S, u2.getId().toString());
+>>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 
 		req = new RequestBuilder().session(wrongConnect).method(Helpers.GET)
 				.uri(routes.ProfileTools.actionOnPanelObject("remove", "education", idOfThisEd).url());

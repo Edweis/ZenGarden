@@ -147,11 +147,14 @@
   <classpathentry sourcepath="/home/piou/.ivy2/cache/oauth.signpost/signpost-commonshttp4/srcs/signpost-commonshttp4-1.2.1.2-sources.jar" kind="lib" path="/home/piou/.ivy2/cache/oauth.signpost/signpost-commonshttp4/jars/signpost-commonshttp4-1.2.1.2.jar"/>
   <classpathentry sourcepath="/home/piou/.ivy2/cache/mysql/mysql-connector-java/srcs/mysql-connector-java-6.0.5-sources.jar" kind="lib" path="/home/piou/.ivy2/cache/mysql/mysql-connector-java/jars/mysql-connector-java-6.0.5.jar"/>
   <classpathentry kind="lib" path="/home/piou/.ivy2/cache/org.webjars/less-node/jars/less-node-2.5.0.jar"/>
+<<<<<<< HEAD
   <classpathentry sourcepath="/home/piou/.ivy2/cache/org.eclipse.persistence/eclipselink/srcs/eclipselink-2.6.4-sources.jar" kind="lib" path="/home/piou/.ivy2/cache/org.eclipse.persistence/eclipselink/jars/eclipselink-2.6.4.jar"/>
   <classpathentry sourcepath="/home/piou/.ivy2/cache/org.eclipse.persistence/javax.persistence/srcs/javax.persistence-2.1.1-sources.jar" kind="lib" path="/home/piou/.ivy2/cache/org.eclipse.persistence/javax.persistence/jars/javax.persistence-2.1.1.jar"/>
   <classpathentry sourcepath="/home/piou/.ivy2/cache/org.eclipse.persistence/commonj.sdo/srcs/commonj.sdo-2.1.1-sources.jar" kind="lib" path="/home/piou/.ivy2/cache/org.eclipse.persistence/commonj.sdo/jars/commonj.sdo-2.1.1.jar"/>
   <classpathentry sourcepath="/home/piou/.ivy2/cache/org.glassfish/javax.json/srcs/javax.json-1.0.4-sources.jar" kind="lib" path="/home/piou/.ivy2/cache/org.glassfish/javax.json/bundles/javax.json-1.0.4.jar"/>
   <classpathentry sourcepath="/home/piou/.ivy2/cache/com.esotericsoftware.yamlbeans/yamlbeans/srcs/yamlbeans-1.09-sources.jar" kind="lib" path="/home/piou/.ivy2/cache/com.esotericsoftware.yamlbeans/yamlbeans/jars/yamlbeans-1.09.jar"/>
+=======
+>>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="output" path="bin"/>
 </classpath>

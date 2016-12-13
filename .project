@@ -1,5 +1,9 @@
 <projectDescription>
+<<<<<<< HEAD
   <name>green</name>
+=======
+  <name>white</name>
+>>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
   <buildSpec>
     <buildCommand>
       <name>org.scala-ide.sdt.core.scalabuilder</name>

@@ -24,7 +24,10 @@ public class User extends Model {
 	private static final String APPLICATION_PATH = "/media/piou/Data/Documents/Developpement/Banquise/green";
 	private static final String ASSETS_PATH = "/public";
 	private static final String PICTURE_PATH = "/images/profile/";
+<<<<<<< HEAD
 	private static final String DEFAULT_PICTURE_PATH = "default.jpg";
+=======
+>>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 
 	/**
 	 * Class that is used to create a user through a form.
@@ -177,6 +180,72 @@ public class User extends Model {
 
 	}
 
+	/**
+	 * Update values of the model from a form.
+	 * 
+	 * @author piou
+	 *
+	 */
+	public static class Updater {
+
+		private String PictureExtension;
+		private String IntroductionText;
+		private String AppointmentPrice;
+		private String Nationality;
+
+		public String validate() {
+			if (Nationality != null) {
+				if (Country.getFromCode3(Nationality) == null) {
+					return "wrong country code";
+				}
+			}
+
+			return null;
+		}
+
+		public User update(User user) {
+			if (PictureExtension != null) {
+				user.setPictureExtension(PictureExtension);
+			}
+			if (IntroductionText != null) {
+				user.setIntroductionText(IntroductionText);
+			}
+			if (AppointmentPrice != null) {
+				user.setAppointmentPrice(AppointmentPrice);
+			}
+			if (Nationality != null) {
+				user.setNationality(Country.getFromCode3(Nationality));
+			}
+
+			return user;
+		}
+
+		public String getIntroductionText() {
+			return IntroductionText;
+		}
+
+		public void setIntroductionText(String introductionText) {
+			IntroductionText = introductionText;
+		}
+
+		public String getAppointmentPrice() {
+			return AppointmentPrice;
+		}
+
+		public void setAppointmentPrice(String appointmentPrice) {
+			AppointmentPrice = appointmentPrice;
+		}
+
+		public String getNationality() {
+			return Nationality;
+		}
+
+		public void setNationality(String nationality) {
+			Nationality = nationality;
+		}
+
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
@@ -256,6 +325,7 @@ public class User extends Model {
 		return "User [Id=" + Id + ", FirstName=" + FirstName + "]";
 	}
 
+<<<<<<< HEAD
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
@@ -271,6 +341,8 @@ public class User extends Model {
 		}
 	}
 
+=======
+>>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 	public Long getId() {
 		return Id;
 	}
@@ -304,11 +376,15 @@ public class User extends Model {
 	}
 
 	public String getPictureExtension() {
+<<<<<<< HEAD
 		if (this.PictureExtension == null) {
 			return PICTURE_PATH + DEFAULT_PICTURE_PATH;
 		} else {
 			return PictureExtension;
 		}
+=======
+		return PictureExtension;
+>>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 	}
 
 	public void setPictureExtension(String pictureExtension) {
