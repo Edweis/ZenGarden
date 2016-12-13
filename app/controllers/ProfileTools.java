@@ -22,6 +22,7 @@ import org.apache.commons.io.FilenameUtils;
 
 import com.google.inject.Inject;
 
+import controllers.tools.InteractivePanel;
 import models.User;
 import models.tools.InteractivePanelObject;
 
@@ -96,7 +97,6 @@ public class ProfileTools extends Controller {
 						e.printStackTrace();
 					}
 
-<<<<<<< HEAD
 					return redirect(routes.ProfileTools.index());
 				} else {
 					return badRequest("Missing file");
@@ -104,26 +104,12 @@ public class ProfileTools extends Controller {
 
 			} else {
 				// it is something else
-=======
-					return ok("File uploaded");
-				} else {
-					flash("error", "Missing file");
-					return badRequest();
-				}
-
-			} else {
-				// else
->>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 				Form<User.Updater> fuu = ff.form(User.Updater.class).bindFromRequest();
 				if (fuu.hasErrors()) {
 					return badRequest(fuu.globalError().message());
 				} else {
 					fuu.get().update(connectedUser).update();
-<<<<<<< HEAD
 					return ok(fuu.get().displayResult()).as("html");
-=======
-					return ok(connectedUser.getIntroductionText());
->>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 				}
 			}
 

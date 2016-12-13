@@ -1,4 +1,4 @@
-package controllers;
+package controllers.tools;
 
 import play.Logger;
 import play.data.Form;
@@ -6,7 +6,6 @@ import play.data.FormFactory;
 import play.mvc.Result;
 import play.mvc.Results;
 
-import controllers.tools.AskForNewRequestResultException;
 import models.Education;
 import models.Experience;
 import models.Funding;
@@ -44,12 +43,8 @@ public class InteractivePanel {
 
 		@Override
 		public Result objectAJAXReturn() {
-<<<<<<< HEAD
 			return Results
 					.ok(views.html.inc.profile.contentPanel.render("Education", connectedUser.getMyEducation(), true));
-=======
-			return Results.ok(views.html.inc.profile.educationPanel.render(connectedUser.getMyEducation(), true));
->>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 		}
 
 		@Override
@@ -80,12 +75,8 @@ public class InteractivePanel {
 
 		@Override
 		public Result objectAJAXReturn() {
-<<<<<<< HEAD
 			return Results
 					.ok(views.html.inc.profile.contentPanel.render("Scholarship", connectedUser.getMyFunding(), true));
-=======
-			return Results.ok(views.html.inc.profile.scholarshipPanel.render(connectedUser.getMyFunding(), true));
->>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 		}
 
 	}
@@ -107,12 +98,8 @@ public class InteractivePanel {
 
 		@Override
 		public Result objectAJAXReturn() {
-<<<<<<< HEAD
 			return Results.ok(
 					views.html.inc.profile.contentPanel.render("Experience", connectedUser.getMyExperience(), true));
-=======
-			return Results.ok(views.html.inc.profile.experiencePanel.render(connectedUser.getMyExperience(), true));
->>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 		}
 
 	}
@@ -140,12 +127,8 @@ public class InteractivePanel {
 
 		@Override
 		public Result objectAJAXReturn() {
-<<<<<<< HEAD
 			return Results
 					.ok(views.html.inc.profile.contentPanel.render("Work", connectedUser.getMyWorkcursus(), true));
-=======
-			return Results.ok(views.html.inc.profile.workPanel.render(connectedUser.getMyWorkcursus(), true));
->>>>>>> c9a13fabf198f71892f2b4e874aeef971e795873
 		}
 
 	}
