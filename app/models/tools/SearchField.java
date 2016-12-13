@@ -17,13 +17,14 @@ public class SearchField {
 	 * String that will be displayed in the get request. TODO : improve and
 	 * check.
 	 */
-	@Override
-	public String toString() {
-		return formatFetchPathForEbean();
-	}
 
 	public SearchField(Field field) {
 		this.field = field;
+	}
+
+	@Override
+	public String toString() {
+		return formatFetchPathForEbean();
 	}
 
 	public Set<User> search(String query) {

@@ -162,6 +162,19 @@ public class User extends Model {
 			Nationality = nationality;
 		}
 
+		public String displayResult() {
+			if (this.IntroductionText != null) {
+				return this.IntroductionText;
+			}
+			if (this.AppointmentPrice != null) {
+				return this.AppointmentPrice;
+			}
+			if (this.Nationality != null) {
+				return this.Nationality.toString();
+			}
+			return "Error in User.Updater.displayResult, no data to display.";
+		}
+
 	}
 
 	@Id

@@ -5,41 +5,46 @@
 	<h1>@user.getFirstName's profile</h1>
 	<div id="nutshell" class="row">
 		<div id="pictureSpace" class="col-md-3">
-			<p class="toggleShadowForm">
-				<img class="img-circle" style="max-height: 200px;max-width: 200px;" src="@routes.Assets.versioned(user.getPictureExtension)">
-			</p>
-			@if(mine){
-			<form  action="@routes.ProfileTools.actionOnPanelObject("edit","user",0)" method="post" enctype="multipart/form-data" style="display: none;">
+			<div class="row">
+				@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
+				<div class="toogleDisplay">
+					<img class="img-circle" style="max-height: 200px;max-width: 200px;" src="@routes.Assets.versioned(user.getPictureExtension)">
+				</div>
+				}{
 				<input type="file" name="picture" />
-				<input type="submit" class="btn btn-warning" value="Send" />
-				<input type="button" class="btn btn-danger toggleOffForm" value="Cancel" />
-			</form>
-			<a class="toggleOnForm" href="#">Change</a>
-			}
-			<p class="toggleShadowForm">
-				IT : @user.getIntroductionText
-			</p>
-			@if(mine){
-			<form  action="@routes.ProfileTools.actionOnPanelObject("edit","user",0)" method="post" style="display: none;">
+				}("post","Change Pic","enctype=multipart/form-data", false)
+			</div>
+			<div class="row">
+				@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
+					<p> IT:
+					<span class="toogleDisplay">@user.getIntroductionText</span>
+					</p>
+				}{
 				<input type="text" name="IntroductionText" value="@user.getIntroductionText"/>
-				<input type="submit" class="btn btn-warning" value="Accept" />
-				<input type="button" class="btn btn-danger toggleOffForm" value="Cancel" />
-			</form>
-			<a class="toggleOnForm" href="#">Edit</a> 	
-			}
+				}()
+			</div>
 		</div>
 		<div id="nutshellContent" class="col-md-9">
 			<dl>
 				<dt>First Name</dt>
 				<dd>@user.getFirstName</dd>
-				<dt>Nationality</dt>
-				<dd>@user.getNationality</dd>
+				<dt>Nationality</dt><dd>
+				@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
+				<span class="toogleDisplay">@user.getNationality</span>
+				}{
+				@if(user.getNationality==null){
+					@inc.common.countryForm("nationality","")
+					}else{
+					@inc.common.countryForm("nationality",user.getNationality.getCode3)
+					}
+				}()</dd>
+				
 				<dt>Appointment price</dt>
 				<dd>@user.getAppointmentPrice</dd>
 			</dl>
 			<ul>
 				@if(mine){
-				<li><a id="changePersoInfo" href="#">Change personal info</a></li>
+				<li><a id="changePersoInfo" href="#">Change personal info [TODO]</a></li>
 				}
 				<li><a href="#">Chat now</a></li>
 				<li><a href="#">Make an appointment</a></li>

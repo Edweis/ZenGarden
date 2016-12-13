@@ -1,11 +1,20 @@
-@(title: String)(list: Html)(form:Html)
+@(title: String, mine: Boolean, le: List[_])(form:Html)
+
+@action = @{routes.ProfileTools.actionOnPanelObject("add",title.toLowerCase,0)}
 
 <div class="col-md-6" id="@title.toLowerCase()Panel">
 	<header>
 		@title
 	</header>
-	<ul>
-		@list
+	@forms.formToogable(mine, action){
+	<ul class="toogleDisplay">
+		@contentPanel(title, le, mine)
 	</ul>
-	@form
+	}{
+	<p>
+		@form
+	</p>
+	}()
 </div>
+
+

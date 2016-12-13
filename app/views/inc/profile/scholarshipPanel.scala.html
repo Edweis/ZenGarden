@@ -1,25 +1,10 @@
  @(le: List[Funding], mine: Boolean)
 @import inc.profile._
 
-@mainPanel("Scholarship"){
-	@le.map(f=>
-		itemPanel(mine, routes.ProfileTools.actionOnPanelObject("remove","scholarship",f.getId), f.getId)(
-			Html(
-				 f.getScholarship.getTitle +" - "+ f.getScholarship.getYear+ "("+f.getAmount+")"
-				 
-				 )
-		)
-	)
-}{
-	@if(mine){
-		@formPanel(routes.ProfileTools.actionOnPanelObject("add","scholarship",0)){
-			<p>
-				<input type="text" placeholder="scholarshipTitle" name="scholarshipTitle"/>
-				<input type="text" placeholder="Amount" name="Amount"/>
-				<input type="text" placeholder="scholarshipYear" name="scholarshipYear"/>
-				<input type="text" placeholder="scholarshipRef" name="scholarshipRef"/>
-			</p>
-		}
-	}
+@mainPanel("Scholarship", mine, le){
+	<input type="text" placeholder="scholarshipTitle" name="scholarshipTitle"/>
+	<input type="text" placeholder="Amount" name="Amount"/>
+	<input type="text" placeholder="scholarshipYear" name="scholarshipYear"/>
+	<input type="text" placeholder="scholarshipRef" name="scholarshipRef"/>
 
 }

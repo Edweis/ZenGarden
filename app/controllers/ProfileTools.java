@@ -96,20 +96,19 @@ public class ProfileTools extends Controller {
 						e.printStackTrace();
 					}
 
-					return ok("File uploaded");
+					return redirect(routes.ProfileTools.index());
 				} else {
-					flash("error", "Missing file");
-					return badRequest();
+					return badRequest("Missing file");
 				}
 
 			} else {
-				// else
+				// it is something else
 				Form<User.Updater> fuu = ff.form(User.Updater.class).bindFromRequest();
 				if (fuu.hasErrors()) {
 					return badRequest(fuu.globalError().message());
 				} else {
 					fuu.get().update(connectedUser).update();
-					return ok(connectedUser.getIntroductionText());
+					return ok(fuu.get().displayResult()).as("html");
 				}
 			}
 

@@ -1,0 +1,10 @@
+@(mine: Boolean, route: Call)(displayDefault: Html)(inputs: Html)(method: String = "post", change: String = "Edit", extraFormInfo: String ="", ajax: Boolean = true)
+@displayDefault
+@if(mine){
+<form  action="@route" method="@method" @extraFormInfo style="display: none;">
+	@inputs
+	<input type="@if(ajax){button}else{submit}" class="btn btn-warning submitToggledForm" value="Send" />
+	<input type="button" class="btn btn-danger toggleOffForm" value="Cancel" />
+</form>
+<a class="toggleOnForm" href="#">@change</a>
+}

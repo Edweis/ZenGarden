@@ -1,2 +1,3 @@
-@(mine: Boolean, deleteRoute: Call, itemId:Long)(content: Html)
-	<li>@content @if(mine){<span><a href="#" class="edit" data-item-id="@itemId">Edit</a><a href="@deleteRoute" class="delete" >Delete</a></span>}</li>
+@(mine: Boolean, title: String , itemId:Long)(content: Html)
+@action = @{routes.ProfileTools.actionOnPanelObject("remove",title.toLowerCase,itemId)}
+<li>@content @if(mine){<span><a href="#" class="edit" data-item-id="@itemId">Edit</a><a href="@action" class="delete" >Delete</a></span>}</li>

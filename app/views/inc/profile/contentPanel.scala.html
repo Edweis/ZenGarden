@@ -1,0 +1,43 @@
+@(title: String, data: List[_], mine: Boolean)
+
+
+@title.toLowerCase match {
+
+	case "education" => {
+		@data.map(_.asInstanceOf[Education]).toList.map(e=>
+			itemPanel(mine, title, e.getId)(ed(e))
+		)  
+	}
+	case "scholarship" => {
+		@data.map(_.asInstanceOf[Funding]).toList.map(e=>
+			itemPanel(mine, title, e.getId)(sc(e))
+		)  
+	}
+	case "experience" => {
+		@data.map(_.asInstanceOf[Experience]).toList.map(e=>
+			itemPanel(mine, title, e.getId)(ex(e))
+		)  
+	}
+	case "work" => {
+		@data.map(_.asInstanceOf[WorkCursus]).toList.map(e=>
+			itemPanel(mine, title, e.getId)(wo(e))
+		)  
+	}
+
+}
+
+@ed(e: Education) = {
+	(@e.getSchool.getId)@e.getSchool.getName, @e.getSchool.getCountry.getName, for @e.getDurationMonth, @e.getMajor
+}
+
+@wo(w: WorkCursus) = {
+	@w.getWork.getCompanyName in @w.getWork.getCountry.getName for @w.getDurationMonth as @w.getPosition
+}
+
+@ex(e: Experience) = {
+	@e.getName - @e.getDuration : @e.getDetails
+}
+@sc(f: Funding) = {
+	 @f.getScholarship.getTitle - @f.getScholarship.getYear (@f.getAmount)
+}
+

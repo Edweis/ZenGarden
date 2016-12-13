@@ -44,7 +44,8 @@ public class InteractivePanel {
 
 		@Override
 		public Result objectAJAXReturn() {
-			return Results.ok(views.html.inc.profile.educationPanel.render(connectedUser.getMyEducation(), true));
+			return Results
+					.ok(views.html.inc.profile.contentPanel.render("Education", connectedUser.getMyEducation(), true));
 		}
 
 		@Override
@@ -75,7 +76,8 @@ public class InteractivePanel {
 
 		@Override
 		public Result objectAJAXReturn() {
-			return Results.ok(views.html.inc.profile.scholarshipPanel.render(connectedUser.getMyFunding(), true));
+			return Results
+					.ok(views.html.inc.profile.contentPanel.render("Scholarship", connectedUser.getMyFunding(), true));
 		}
 
 	}
@@ -97,7 +99,8 @@ public class InteractivePanel {
 
 		@Override
 		public Result objectAJAXReturn() {
-			return Results.ok(views.html.inc.profile.experiencePanel.render(connectedUser.getMyExperience(), true));
+			return Results.ok(
+					views.html.inc.profile.contentPanel.render("Experience", connectedUser.getMyExperience(), true));
 		}
 
 	}
@@ -125,7 +128,8 @@ public class InteractivePanel {
 
 		@Override
 		public Result objectAJAXReturn() {
-			return Results.ok(views.html.inc.profile.workPanel.render(connectedUser.getMyWorkcursus(), true));
+			return Results
+					.ok(views.html.inc.profile.contentPanel.render("Work", connectedUser.getMyWorkcursus(), true));
 		}
 
 	}
