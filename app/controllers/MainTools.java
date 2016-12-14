@@ -39,9 +39,9 @@ public class MainTools extends Controller {
 
 	public Result resetDB() {
 
-		// importCountries();
-		createYAMLfile((List<?>) User.find.all(), ENTITIES_FILE_NAME);
-		createYAMLfile((List<?>) Country.find.all(), COUNTRIES_FILE_NAME);
+		importCountries();
+		// createYAMLfile((List<?>) User.find.all(), ENTITIES_FILE_NAME);
+		// createYAMLfile((List<?>) Country.find.all(), COUNTRIES_FILE_NAME);
 		// importYAMLfile();
 
 		return ok("done !").as("text/html");

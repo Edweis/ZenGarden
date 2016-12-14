@@ -28,25 +28,34 @@
 			<dl>
 				<dt>First Name</dt>
 				<dd>@user.getFirstName</dd>
-				<dt>Nationality</dt><dd>
-				@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
-				<span class="toogleDisplay">@user.getNationality</span>
-				}{
-				@if(user.getNationality==null){
-					@inc.common.countryForm("nationality","")
+				<dt>Nationality</dt>
+				<dd>
+					@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
+					<span class="toogleDisplay">@user.getNationality</span>
+					}{
+					@if(user.getNationality==null){
+						@inc.common.countryForm("nationality","")
 					}else{
-					@inc.common.countryForm("nationality",user.getNationality.getCode3)
+						@inc.common.countryForm("nationality",user.getNationality.getCode3)
 					}
-				}()</dd>
+					}()
+				</dd>
 				<dt>Appointment price</dt>
-				<dd>@user.getAppointmentPrice</dd>
+				<dd>
+					@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
+					<span class="toogleDisplay">@user.getAppointmentPrice</span>
+					}{
+					<input type="text" name="AppointmentPrice" value="@user.getAppointmentPrice" placeHolder="a cofee, a lunch, xx€, xx$ ... "/>
+					}()
+				</dd>
 			</dl>
 			<ul>
 				@if(mine){
 				<li><a id="changePersoInfo" href="#">Change personal info [TODO]</a></li>
-				}
-				<li><a href="#">Chat now</a></li>
+				}else{
+				<li><a href="@routes.ProfileTools.display(user.getId)">Chat now</a></li>
 				<li><a href="#">Make an appointment</a></li>
+				}
 			</ul>
 		</div>
 	</div>

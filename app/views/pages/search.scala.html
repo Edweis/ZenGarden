@@ -16,7 +16,10 @@
 			<p>No results found</p>
 		}else{
 			<p>
-			@for(s <- results){
+			@*Sort by matching rank*@
+			@results.sortWith(
+				(a,b)=> a.getMatchingRank > b.getMatchingRank 
+			).map{s=>
 				@inc.common.userItem(s.getUser){
 					MR : @s.getMatchingRank <br/>
 					Matching : <br/>

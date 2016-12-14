@@ -1,2 +1,7 @@
 @(name: String, value: String)
-<input type="text" placeholder="Country" name="@name" value="@value"/>
+@l = @{Country.find.all()}
+<select  name="@name">
+	@for(c<-l){
+		 <option value="@c.getCode3" @if(c.getCode3.equals(value)){required}>@c.getName</option>
+	} 
+</select> 

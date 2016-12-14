@@ -3,18 +3,19 @@ $(document).ready(function(){
 	// For formToogable() template
 	// ################
 	//.toggleOnForm : display the form next to it, hide itself and the .toggleShadowForm if exists
-	//.toggleOfForm : hide the form where it is and show the .toggleOnForm and .toggleShadowForm
+	//.toggleOffForm : hide the form where it is and show the .toggleOnForm and .toggleShadowForm
+	//.toogleDisplay : element that hides and show when the form does not
 	
 	$(".toggleOnForm").click(function(){
 		$(this).hide();
 		$(this).parent().find("form").show();
-		$(this).parent().find(".toggleShadowForm").hide();
+		$(this).parent().find(".toogleDisplay").hide();
 	});
 	
 	$(".toggleOffForm").click(function(){
 		$(this).parent().hide();
 		$(this).parent().parent().find(".toggleOnForm").show();
-		$(this).parent().parent().find(".toggleShadowForm").show();
+		$(this).parent().parent().find(".toogleDisplay").show();
 	});
 	
 	
@@ -40,7 +41,7 @@ $(document).ready(function(){
 				out.append("<p class=\"error\">Error in ajax request :</br>"+$.parseHTML(res)+"</p>");
 			},
 			success: function(res){
-				out.replaceWith($.parseHTML(res));
+				out.text($.parseHTML(res));
 			}
 		});
 	});
