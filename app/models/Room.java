@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,27 +22,76 @@ public class Room extends Model {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long Id;
+	private Long Id;
 	@ManyToMany
-	@JoinTable(name = "Chair", joinColumns = @JoinColumn(name = "IdRoom", referencedColumnName = "Id"), inverseJoinColumns = @JoinColumn(name = "IdUser", referencedColumnName = "Id"))
-	public List<User> Participants;
-	public Boolean Ongoing;
-
-	@OneToOne(fetch = FetchType.LAZY)
+	@JoinTable(name = "chair", joinColumns = @JoinColumn(name = "IdRoom", referencedColumnName = "Id"), inverseJoinColumns = @JoinColumn(name = "IdUser", referencedColumnName = "Id"))
+	private List<User> Participants;
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "IdChat")
-	public Chat Chat;
+	private Chat Chat;
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "IdAppointment")
-	public Appointment Appointment;
+	private Appointment Appointment;
 
-	public String participantsToString() {
-		String res = "";
-		for (User u : Participants) {
-			res = res + u.getFirstName() + ", ";
-		}
-		res = res.substring(0, res.length() - 2);
-		return res;
+	public Room(User a, User b) {
+		Participants = Arrays.asList(a, b);
+	}
+
+	@Override
+	public String toString() {
+		return "Room [Id=" + Id + ", Participants=" + Participants + "]";
 	}
 
 	public static Finder<Long, Room> find = new Finder<Long, Room>(Room.class);
+
+	/**
+	 * Return the (only) private room between two users. Return null if it
+	 * doesen't exists yet. TODO: is their an Ebean method to look for several
+	 * elements in a ManyToMany relationship ?
+	 * 
+	 * @param listUser
+	 * @return
+	 */
+	public static Room getRoomBetween(User a, User b) {
+		List<Room> rA = Room.find.where().eq("Participants", a).findList();
+		for (Room r : rA) {
+			if (r.getParticipants().contains(b)) {
+				return r;
+			}
+		}
+		return null;
+	}
+
+	public Long getId() {
+		return Id;
+	}
+
+	public void setId(Long id) {
+		Id = id;
+	}
+
+	public List<User> getParticipants() {
+		return Participants;
+	}
+
+	public void setParticipants(List<User> participants) {
+		Participants = participants;
+	}
+
+	public Chat getChat() {
+		return Chat;
+	}
+
+	public void setChat(Chat chat) {
+		Chat = chat;
+	}
+
+	public Appointment getAppointment() {
+		return Appointment;
+	}
+
+	public void setAppointment(Appointment appointment) {
+		Appointment = appointment;
+	}
+
 }

@@ -71,15 +71,14 @@ create table funding (
 create table message (
   id                            bigint auto_increment not null,
   idwriter                      bigint not null,
-  idchat                        bigint not null,
   content                       varchar(255) not null,
   date                          datetime(6) not null,
+  idchat                        bigint not null,
   constraint pk_message primary key (id)
 );
 
 create table room (
   id                            bigint auto_increment not null,
-  ongoing                       tinyint(1) default 0,
   idchat                        bigint,
   idappointment                 bigint,
   constraint uq_room_idchat unique (idchat),

@@ -1,0 +1,21 @@
+@(lm: List[Message], see: User)
+@for(m<-lm){
+<li class="messageItem @if(m.getWriter.equals(see)){right}else{left}">
+	<span class="messagePic"> 
+		@inc.common.userPicture(m.getWriter,"xs")
+	</span>
+	<div class="messageBody">
+		<div class="messageHeader">
+			<small class="text-muted @if(!m.getWriter.equals(see)){pull-right}">
+				<span class="glyphicon glyphicon-time"></span>@m.getDate
+			</small>
+			<strong class="@if(m.getWriter.equals(see)){pull-right} primary-font">
+				@m.getWriter.getFirstName
+			</strong>
+		</div>
+		<p>
+			@m.getContent
+		</p>
+	</div>
+</li>
+}

@@ -3,8 +3,8 @@ package controllers.tools;
 import play.mvc.Result;
 
 /**
- * Exception that occur when an error occur in an ection process and needs to
- * redirect the user. <br/>
+ * Exception that occur when an error occur in an process and needs to redirect
+ * the user. <br/>
  * For instance the user tries to edit an Education that is not yours via a fake
  * form or an injection, the action has to stop to redirect the guys.
  * 

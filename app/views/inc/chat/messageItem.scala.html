@@ -1,0 +1,4 @@
+@(lm: List[Message], see: User)
+@for(m<-lm){
+<li class="messageItem @if(m.getWriter.equals(see)){mine}"><span class="timestamp">@m.getDate</span>@m.getContent</li>
+}

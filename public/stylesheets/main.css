@@ -1,0 +1,26 @@
+.messagesBoard {
+	list-style: none;
+}
+
+.messagesBoard li{
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted #B3A9A9;
+    min-height: 75px;
+    list-style: none;
+}
+
+.messagesBoard li.left .messageBody {
+	margin-left: 60px;
+}
+
+.messagesBoard li.right .messageBody {
+	margin-right: 60px;
+}
+
+.messagesBoard li.left .messagePic {
+	float: left;
+}
+.messagesBoard li.right .messagePic {
+	float: right;
+}

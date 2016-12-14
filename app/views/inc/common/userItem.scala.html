@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col-md-4">
 			<div class="row">
-				<img class="img-circle" style="max-height: 50px;max-width: 50px;" src="@routes.Assets.versioned(user.getPictureExtension)">
+				@inc.common.userPicture(user,"s")
 			</div>
 			<div class="row">
 				<a href="@routes.ProfileTools.display(user.getId)">@user.getFirstName</a>

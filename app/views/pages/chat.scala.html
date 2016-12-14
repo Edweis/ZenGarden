@@ -1,0 +1,14 @@
+@(room: Room)
+
+@main("Chat"){
+	<header>@room.getChat.getTitleChat<span class="refresher" style="display: none;"> # sending...</span></header>
+	<div class="messagesBoard" data-last="0" data-room="@room.getId">
+		<ul>
+		</ul>
+	</div>
+	<div id="typeZone">
+		<input type="text" name="contentMsg" class="contentMsg" placeHolder="Message ..."/>
+		<input type="button" class="sendMessage" value="send"/>
+		<input type="button" class="refreshMessage" value="RELOAD"/>
+	</div>
+}

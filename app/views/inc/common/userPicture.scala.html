@@ -1,0 +1,21 @@
+@(user: User, size: String)
+@go(s: String) ={
+	<img class="img-circle" style="max-height: @s;max-width: @s;" src="@routes.Assets.versioned(user.getPictureExtension)">
+}
+@size match{
+	case "xs" =>{
+		@go("50px")
+	}
+	case "s" =>{
+		@go("100px")
+	}
+	case "m" =>{
+		@go("150px")
+	}
+	case "l" =>{
+		@go("200px")
+	}
+	case _ =>{
+		###UserPicture
+	}
+}
