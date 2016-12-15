@@ -20,7 +20,7 @@
 					<span class="toogleDisplay">@user.getIntroductionText</span>
 					</p>
 				}{
-				<input type="text" name="IntroductionText" value="@user.getIntroductionText"/>
+				<textarea row="3" name="IntroductionText" value="@user.getIntroductionText"></textarea>
 				}()
 			</div>
 		</div>
@@ -31,14 +31,18 @@
 				<dt>Nationality</dt>
 				<dd>
 					@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
-					<span class="toogleDisplay">@user.getNationality</span>
+					@if(user.getNationality==null){
+					<span class="toogleDisplay">Not referenced</span>
+					}else{
+					<span class="toogleDisplay">@user.getNationality.getName</span>
+					}
 					}{
 					@if(user.getNationality==null){
 						@inc.common.countryForm("nationality","")
 					}else{
 						@inc.common.countryForm("nationality",user.getNationality.getCode3)
 					}
-					}()
+					}("post","Change","",true)
 				</dd>
 				<dt>Appointment price</dt>
 				<dd>
@@ -46,12 +50,12 @@
 					<span class="toogleDisplay">@user.getAppointmentPrice</span>
 					}{
 					<input type="text" name="AppointmentPrice" value="@user.getAppointmentPrice" placeHolder="a cofee, a lunch, xx€, xx$ ... "/>
-					}()
+					}("post","Change","",true)
 				</dd>
 			</dl>
 			<ul>
 				@if(mine){
-				<li><a id="changePersoInfo" href="#">Change personal info [TODO]</a></li>
+				<li><a id="changePersoInfo" href="#" data-toggle="modal" data-target="#myInfo">Change personal info [TODO]</a></li>
 				}else{
 				<li><a href="@routes.ProfileTools.display(user.getId)">Chat now</a></li>
 				<li><a href="#">Make an appointment</a></li>
@@ -60,7 +64,7 @@
 		</div>
 	</div>
 	<div id="mainContent" class="row">
-		<div id="sidePanel" class="col-md-3">
+		<div id="sidePanel" class="col-md-3 .hidden-sm .hidden-xs">
 			side panel
 		</div>
 		<div id="details" class="col-md-9">
@@ -72,5 +76,30 @@
 			</div>
 		</div>
 	</div>
+	@if(mine){
+	<div class="modal fade" id="myInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+	      </div>
+	      <div class="modal-body">
+			<input type="text" name="key" placeholder="phone, mail, whatsapp, facebook ...">
+			<input type="text" name="value" placeholder="info">
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	
-}	
+	}
+	
+}{
+	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/jquery.auto-complete.min.js")"></script>
+	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/toggleForm.js")"></script>
+}

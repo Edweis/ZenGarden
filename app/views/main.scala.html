@@ -1,13 +1,17 @@
-@(title: String)(body: Html)
+@(title: String)(body: Html)(script: Html = Html(""))
 <html>
     <head>
         <title>@title</title>
         <script type="text/javascript" src="@routes.Assets.versioned("javascripts/jquery-3.1.1.js")"></script>
         <script type="text/javascript" src="@routes.Assets.versioned("javascripts/bootstrap.min.js")"></script>
         <script type="text/javascript" src="@routes.Assets.versioned("javascripts/hello.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.versioned("javascripts/autocomplete.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.versioned("javascripts/jquery.auto-complete.min.js")"></script>
+        @script
         
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.versioned("stylesheets/jquery.auto-complete.css")">
     </head>
     <body>
     	@inc.common.header()

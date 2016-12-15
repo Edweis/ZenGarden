@@ -1,7 +1,7 @@
 @(name: String, value: String)
 @l = @{Country.find.all()}
-<select  name="@name">
+<select  name="@name" class="form-control">
 	@for(c<-l){
-		 <option value="@c.getCode3" @if(c.getCode3.equals(value)){required}>@c.getName</option>
+		 <option value="@c.getCode3" @if(c.getCode3.equals(value)){selected}>@c.getName</option>
 	} 
-</select> 
+</select>

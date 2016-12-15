@@ -24,7 +24,7 @@ public class Country extends Model {
 		return Name;
 	}
 
-	public static Finder<Long, Country> find = new Finder<Long, Country>(Country.class);
+	public static com.avaje.ebean.Model.Finder<Long, Country> find = new Finder<Long, Country>(Country.class);
 
 	public static Country getFromCode3(String code3) {
 		return Country.find.where().eq("Code3", code3).findUnique();

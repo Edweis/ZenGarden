@@ -1,4 +1,4 @@
-@(mine: Boolean, route: Call)(displayDefault: Html)(inputs: Html)(method: String = "post", change: String = "Edit", extraFormInfo: String ="", ajax: Boolean = true)
+@(mine: Boolean, route: Call)(displayDefault: Html)(inputs: Html)(method: String = "post", change: String = "Add", extraFormInfo: String ="", ajax: Boolean = true)
 @displayDefault
 @if(mine){
 <form  action="@route" method="@method" @extraFormInfo style="display: none;">

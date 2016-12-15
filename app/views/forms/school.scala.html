@@ -1,2 +1,21 @@
-<input name="schoolName" placeholder="School name"/>
-@inc.common.countryForm("countryCode3","")
+@(label: Boolean = true)
+@if(label){
+<div class="form-group">
+	<label for="schoolName" class="col-sm-2 control-label">School name</label>
+   	<div class="col-sm-5">
+		<input name="schoolName" class="autoSchool form-control" placeholder="School name"/>
+	</div>
+	<label for="countryCode3" class="col-sm-1 control-label">Country</label>
+   	<div class="col-sm-4">
+		@inc.common.countryForm("countryCode3","")
+	</div>
+</div>
+}else{
+<div class="col-sm-8">
+	<input name="schoolName" class="autoSchool form-control" placeholder="School name"/>
+</div>
+<div class="col-sm-4">
+	@inc.common.countryForm("countryCode3","")
+</div>
+
+}
