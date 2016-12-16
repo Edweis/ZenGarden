@@ -1,15 +1,22 @@
 @(room: Room)
 
 @main("Chat"){
-	<header>@room.getChat.getTitleChat<span class="refresher" style="display: none;"> # sending...</span></header>
-	<div class="messagesBoard" data-last="0" data-room="@room.getId">
-		<ul>
-		</ul>
+	<div id="chat" class="col-md-8">
+		<header>@room.getChat.getTitleChat<span class="refresher" style="display: none;"> # sending...</span></header>
+		<div class="messagesBoard" data-last="0" data-roomid="@room.getId">
+			<ul>
+			</ul>
+		</div>
+		<div id="typeZone">
+			<input type="text" name="contentMsg" class="contentMsg" placeHolder="Message ..."/>
+			<input type="button" class="sendMessage" value="send"/>
+		</div>
 	</div>
-	<div id="typeZone">
-		<input type="text" name="contentMsg" class="contentMsg" placeHolder="Message ..."/>
-		<input type="button" class="sendMessage" value="send"/>
-		<input type="button" class="refreshMessage" value="RELOAD"/>
+	<div class="col-md-4">
+		<button class="btn btn-default getContact" data-roomid="@room.getId" type="button" data-toggle="tooltip" title="Oops, that person hasn't shared contacts with you yet :o !"> See contact</button>
+		<button class="btn btn-default giveContact"  data-roomid="@room.getId" type="button">Share my contact</button>
+		<div class="contactDisplay">
+		</div>
 	</div>
 }{
 	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/chat.js")"></script>

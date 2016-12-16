@@ -28,9 +28,11 @@ GET    /search                             controllers.SearchTools.display(q: St
 GET    /chat/:userId                       controllers.ChatTools.withYou(userId: Long)
 POST   /chat/messages/new/:roomId          controllers.ChatTools.send(roomId: Long)
 GET    /chat/messages/:roomId/:timestamp   controllers.ChatTools.lastMessages(roomId: Long, timestamp: Long)
+GET    /chat/getContact/:roomId            controllers.ChatTools.getContact(roomId: Long)
+GET    /chat/giveContact/:roomId           controllers.ChatTools.giveContact(roomId: Long)
 
 # Autocomplete
-GET	  /autocomplete/school					controllers.Autocomplete.school(input: String ?=null)
+GET    /autocomplete/school                controllers.Autocomplete.school(input: String ?=null)
 
 # Map static resources from the /public folder to the /assets URL path
 GET    /assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)

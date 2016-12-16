@@ -212,6 +212,9 @@ public class User extends Model {
 	@OneToMany(mappedBy = "User", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<Contact> myContactsInfo;
 
+	@OneToMany(mappedBy = "HasShared", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	private List<Relationship> myRelationships;
+
 	public static Finder<Long, User> find = new Finder<Long, User>(User.class);
 
 	/**
@@ -237,11 +240,15 @@ public class User extends Model {
 		Email = email;
 		Password = password;
 		FirstName = firstName;
-		myContactsInfo = new ArrayList<Contact>();
+
+		// set email as contact information. I use ci variable because I have a
+		// NullPointerExecption when I work directly on myContactInfo
+		ArrayList<Contact> ci = new ArrayList<Contact>();
 		models.Contact.Builder cb = new Contact.Builder();
 		cb.setType("Email");
 		cb.setValue(email);
-		myContactsInfo.add(cb.generate(this));
+		ci.add(cb.generate(this));
+		myContactsInfo = ci;
 	}
 
 	/**
@@ -396,6 +403,14 @@ public class User extends Model {
 
 	public Integer getRatingResult() {
 		return RatingResult;
+	}
+
+	public List<Relationship> getMyRelationships() {
+		return myRelationships;
+	}
+
+	public void setMyRelationships(List<Relationship> myRelationships) {
+		this.myRelationships = myRelationships;
 	}
 
 	public void setRatingResult(Integer ratingResult) {

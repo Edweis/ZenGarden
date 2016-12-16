@@ -23,14 +23,14 @@ public class Room extends Model {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
-	@ManyToMany
-	@JoinTable(name = "chair", joinColumns = @JoinColumn(name = "IdRoom", referencedColumnName = "Id"), inverseJoinColumns = @JoinColumn(name = "IdUser", referencedColumnName = "Id"))
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinTable(name = "chair", joinColumns = @JoinColumn(name = "idroom", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "iduser", referencedColumnName = "id"))
 	private List<User> Participants;
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "IdChat")
+	@JoinColumn(name = "idchat")
 	private Chat Chat;
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "IdAppointment")
+	@JoinColumn(name = "idappointment")
 	private Appointment Appointment;
 
 	public Room(User a, User b) {

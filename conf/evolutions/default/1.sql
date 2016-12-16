@@ -77,6 +77,14 @@ create table message (
   constraint pk_message primary key (id)
 );
 
+create table relationship (
+  id                            bigint auto_increment not null,
+  idhasshared                   bigint,
+  idwith                        bigint,
+  date                          datetime(6),
+  constraint pk_relationship primary key (id)
+);
+
 create table room (
   id                            bigint auto_increment not null,
   idchat                        bigint,
@@ -164,6 +172,12 @@ create index ix_message_idwriter on message (idwriter);
 alter table message add constraint fk_message_idchat foreign key (idchat) references chat (id) on delete restrict on update restrict;
 create index ix_message_idchat on message (idchat);
 
+alter table relationship add constraint fk_relationship_idhasshared foreign key (idhasshared) references user (id) on delete restrict on update restrict;
+create index ix_relationship_idhasshared on relationship (idhasshared);
+
+alter table relationship add constraint fk_relationship_idwith foreign key (idwith) references user (id) on delete restrict on update restrict;
+create index ix_relationship_idwith on relationship (idwith);
+
 alter table room add constraint fk_room_idchat foreign key (idchat) references chat (id) on delete restrict on update restrict;
 
 alter table room add constraint fk_room_idappointment foreign key (idappointment) references appointment (id) on delete restrict on update restrict;
@@ -217,6 +231,12 @@ drop index ix_message_idwriter on message;
 alter table message drop foreign key fk_message_idchat;
 drop index ix_message_idchat on message;
 
+alter table relationship drop foreign key fk_relationship_idhasshared;
+drop index ix_relationship_idhasshared on relationship;
+
+alter table relationship drop foreign key fk_relationship_idwith;
+drop index ix_relationship_idwith on relationship;
+
 alter table room drop foreign key fk_room_idchat;
 
 alter table room drop foreign key fk_room_idappointment;
@@ -258,6 +278,8 @@ drop table if exists experience;
 drop table if exists funding;
 
 drop table if exists message;
+
+drop table if exists relationship;
 
 drop table if exists room;
 

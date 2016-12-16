@@ -8,9 +8,18 @@ import models.User;
 
 public class Secured extends Security.Authenticator {
 
+	/**
+	 * TODO : I don't need to fetch the user every time, this might take some
+	 * unnecessary computing time.
+	 */
 	@Override
 	public String getUsername(Context ctx) {
-		return getUserIdString(ctx);
+		User u = connectedUser(ctx);
+		if (u == null) {
+			return null;
+		} else {
+			return u.toString();
+		}
 	}
 
 	@Override
