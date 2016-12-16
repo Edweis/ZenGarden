@@ -23,6 +23,7 @@ import org.apache.commons.io.FilenameUtils;
 import com.google.inject.Inject;
 
 import controllers.tools.InteractivePanel;
+import models.Contact;
 import models.User;
 import models.tools.InteractivePanelObject;
 
@@ -67,8 +68,27 @@ public class ProfileTools extends Controller {
 		case "work":
 			ipo = new InteractivePanel(connectedUser, ff).new InteractiveWork();
 			break;
+		case "contact":
+			switch (action) {
+			case "add":
+				Contact c = ff.form(Contact.Builder.class).bindFromRequest().get().generate(connectedUser);
+				c.insert();
+				return ok(views.html.inc.profile.itemContact.render(c));
+			case "remove":
+				Contact c2 = Contact.find.byId(id);
+				if (c2 == null) {
+					return notFound();
+				}
+				if (!c2.getUser().equals(connectedUser)) {
+					return unauthorized();
+				}
+				c2.delete();
+				return ok();
+
+			default:
+				return badRequest();
+			}
 		case "user":
-			Logger.debug(request().contentType().get());
 			if (request().contentType().get().contains("multipart/form-data")) {
 				// if it's his profile picture
 				MultipartFormData<File> body = request().body().asMultipartFormData();

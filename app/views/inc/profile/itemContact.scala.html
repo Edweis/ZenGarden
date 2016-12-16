@@ -1,0 +1,6 @@
+@(c: Contact)
+<tr>
+	<td>@c.getType</td>
+	<td>@c.getValue</td>
+	<td><a ref="@routes.ProfileTools.actionOnPanelObject("remove","contact",c.getId)" class="removeContact glyphicon glyphicon-remove" data-contactid="@c.getId"></a></td>
+</tr>

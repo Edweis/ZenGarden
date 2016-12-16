@@ -3,8 +3,10 @@ package models;
 import play.data.validation.Constraints;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -199,15 +201,15 @@ public class User extends Model {
 	@JoinColumn(name = "IdNationality")
 	private Country Nationality;
 
-	@OneToMany(mappedBy = "User", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "User", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<Education> myEducation;
-	@OneToMany(mappedBy = "User")
+	@OneToMany(mappedBy = "User", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<WorkCursus> myWorkcursus;
-	@OneToMany(mappedBy = "User")
+	@OneToMany(mappedBy = "User", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<Experience> myExperience;
-	@OneToMany(mappedBy = "User")
+	@OneToMany(mappedBy = "User", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<Funding> myFunding;
-	@OneToMany(mappedBy = "User")
+	@OneToMany(mappedBy = "User", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<Contact> myContactsInfo;
 
 	public static Finder<Long, User> find = new Finder<Long, User>(User.class);
@@ -235,6 +237,11 @@ public class User extends Model {
 		Email = email;
 		Password = password;
 		FirstName = firstName;
+		myContactsInfo = new ArrayList<Contact>();
+		models.Contact.Builder cb = new Contact.Builder();
+		cb.setType("Email");
+		cb.setValue(email);
+		myContactsInfo.add(cb.generate(this));
 	}
 
 	/**

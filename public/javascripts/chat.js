@@ -36,14 +36,14 @@ $(document).ready(function(){
 		var refresher = $(".refresher");
 		var out = $(".messagesBoard");
 		var roomId = out.attr("data-room");
-		var content = $(this).siblings(".contentMsg").serialize();
+		var content = $(this).siblings(".contentMsg");
 		var action = "/chat/messages/new/"+roomId;
 		
 		refresher.show();
 		$.ajax({
 			url: action,
 			type: "post",
-			data: content,
+			data: content.serialize(),
 			dataType: "html",
 			error: function(res){
 				out.append("<p class=\"error\">Error in ajax request :</br>"+$.parseHTML(res)+"</p>");
@@ -52,6 +52,8 @@ $(document).ready(function(){
 			success: function(res){
 				reload.call();
 				refresher.hide();
+				content.value("");
+				content.focus();
 			}
 		});
 	})

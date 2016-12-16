@@ -1,6 +1,4 @@
-/**
- * 
- */$(document).ready(function(){
+$(document).ready(function(){
 	// ################ Profile only
 	// For formToogable() template
 	// ################
@@ -57,6 +55,50 @@
 			item.remove();				
 		});
 	});
+	
+	
+	//######## Profile only
+	//For contact removing
+	//########
+	$(".removeContact").click(function(){
+		var id = $(this).attr("data-contactid");
+		var action = $(this).attr("ref");
+		var out = $(this).closest("tr");
+		
+		$.ajax({
+			url: action,
+			type: "get",
+			error: function(res){
+				out.append("<p class=\"error\">Error in ajax request :</br>"+$.parseHTML(res)+"</p>");
+			},
+			success: function(res){
+				out.remove();
+			}
+		});
+	})
+	
+	//######## Profile only
+	//For contact adding
+	//########
+	$(".addContact").click(function(){
+		var form = $(this).closest("form");
+		var action = form.attr("action");
+		var out = $(".contactList");
+		$.ajax({
+			url: action,
+			data: $(this).closest("form").serialize(),
+			type: "post",
+			dataType: "html",
+			error: function(res){
+				out.append("<p class=\"error\">Error in ajax request :</br>"+res+"</p>");
+			},
+			success: function(res){
+				out.append($.parseHTML(res));
+				form.trigger("reset");
+				form.find("input:first").focus();
+			}
+		});
+	})
 	
 	
 });
