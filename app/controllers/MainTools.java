@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.avaje.ebean.Ebean;
@@ -16,6 +17,7 @@ import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlWriter;
 
 import models.Country;
+import models.Message;
 import models.User;
 
 /**
@@ -35,6 +37,15 @@ public class MainTools extends Controller {
 	 */
 	public Result home() {
 		return ok(views.html.pages.home.render(User.find.all()));
+	}
+
+	public Result getNotifications() {
+		User cu = Secured.connectedUser(ctx());
+
+		// look for message recieved
+		List<Message> lm = Message.unseenMessages(new Timestamp(System.currentTimeMillis()), cu);
+
+		return ok(views.html.inc.common.notification.render(lm, cu));
 	}
 
 	public Result resetDB() {

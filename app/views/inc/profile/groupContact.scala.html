@@ -1,0 +1,15 @@
+@(lc: List[Contact])
+<table>
+	<thead>
+		<tr>
+			<th>Type of contact</th>
+			<th>Details</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody class="contactList">
+		@for(c<-lc){
+		@inc.profile.itemContact(c)
+		}
+	</tbody>
+</table>

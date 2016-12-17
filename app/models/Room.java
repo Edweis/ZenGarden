@@ -33,8 +33,21 @@ public class Room extends Model {
 	@JoinColumn(name = "idappointment")
 	private Appointment Appointment;
 
-	public Room(User a, User b) {
+	private Room(User a, User b) {
 		Participants = Arrays.asList(a, b);
+	}
+
+	/**
+	 * Create a room with a new chat between two people.
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	public static Room createDefaultChatRoom(User a, User b) {
+		Room r = new Room(a, b);
+		r.setChat(new Chat(a.getFirstName() + " ~ " + b.getFirstName(), r));
+		return r;
 	}
 
 	@Override

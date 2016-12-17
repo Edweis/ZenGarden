@@ -5,6 +5,7 @@
         <script type="text/javascript" src="@routes.Assets.versioned("javascripts/jquery-3.1.1.js")"></script>
         <script type="text/javascript" src="@routes.Assets.versioned("javascripts/bootstrap.min.js")"></script>
         <script type="text/javascript" src="@routes.Assets.versioned("javascripts/hello.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.versioned("javascripts/header.js")"></script>
         <script type="text/javascript" src="@routes.Assets.versioned("javascripts/autocomplete.js")"></script>
         <script type="text/javascript" src="@routes.Assets.versioned("javascripts/jquery.auto-complete.min.js")"></script>
         @script
@@ -14,7 +15,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.versioned("stylesheets/jquery.auto-complete.css")">
     </head>
     <body>
-    	@inc.common.header()
+    	@inc.common.header() 
         <div class="container" id="main">
             @body
         </div>

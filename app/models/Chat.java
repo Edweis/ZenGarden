@@ -54,7 +54,7 @@ public class Chat extends Model {
 	 *             in this room.
 	 */
 	public void send(Message message) throws AskForNewRequestResultException {
-		if (!this.getRoom().getParticipants().contains(message.getWriter())) {
+		if (!this.getRoom().getParticipants().contains(message.getWriter()) && message.getWriter() != null) {
 			throw new AskForNewRequestResultException(Results.unauthorized("You dont belong to this room"));
 		}
 		this.Messages.add(message);

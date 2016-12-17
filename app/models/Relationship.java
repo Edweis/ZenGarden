@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 
 import com.avaje.ebean.Model;
 
+import controllers.tools.AskForNewRequestResultException;
+
 @Entity
 public class Relationship extends Model {
 	@Id
@@ -28,19 +30,32 @@ public class Relationship extends Model {
 	public static Finder<Long, Relationship> find = new Finder<Long, Relationship>(Relationship.class);
 
 	/**
-	 * Share contact information of HasShare to With
+	 * Share contact information of HasShare to With. Also send a system message
+	 * to a room with only these two people (that should exists if on have been
+	 * on the chat but I'll check anyway).
 	 * 
 	 * @param HasShared
 	 * @param With
+	 * @throws AskForNewRequestResultException
 	 */
-	public Relationship(User HasShared, User With) {
+	public Relationship(User HasShared, User With) throws AskForNewRequestResultException {
 		this.HasShared = HasShared;
 		this.With = With;
-		Date = new Timestamp(System.currentTimeMillis());
+		this.Date = new Timestamp(System.currentTimeMillis());
+
+		// Send a message to a chat room with ONLY HasShared and With
+		Room r = Room.getRoomBetween(HasShared, With);
+		if (r == null || r.getParticipants().size() != 2) {
+			r = Room.createDefaultChatRoom(HasShared, With);
+		}
+
+		// send the message
+		Message message = Message.newShareContactMessage(r.getChat(), HasShared, With);
+		r.getChat().send(message);
 	}
 
-	public static Relationship hasHeSharedWith(User connectedUser, User interlocutor) {
-		return Relationship.find.where().eq("HasShared", connectedUser).and().eq("With", interlocutor).findUnique();
+	public static Relationship hasHeSharedWith(User hasshared, User with) {
+		return Relationship.find.where().eq("HasShared", hasshared).and().eq("With", with).findUnique();
 	}
 
 	public User getHasShared() {

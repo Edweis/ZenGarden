@@ -9,6 +9,7 @@ $(document).ready(function(){
 	$(".toggleOnForm").click(function(){
 		$(this).hide();
 		$(this).parent().find("form").show();
+		$(this).parent().find("form").focus();
 		$(this).parent().find(".toogleDisplay").hide();
 	});
 	

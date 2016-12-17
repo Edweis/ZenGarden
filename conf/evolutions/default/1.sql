@@ -70,10 +70,12 @@ create table funding (
 
 create table message (
   id                            bigint auto_increment not null,
-  idwriter                      bigint not null,
+  idwriter                      bigint,
   content                       varchar(255) not null,
   date                          datetime(6) not null,
   idchat                        bigint not null,
+  type                          varchar(255) not null,
+  seen                          tinyint(1) default 0 not null,
   constraint pk_message primary key (id)
 );
 

@@ -57,7 +57,7 @@
 				@if(mine){
 				<li><a id="changePersoInfo" href="#" data-toggle="modal" data-target="#myInfo">Change personal info [TODO]</a></li>
 				}else{
-				<li><a href="@routes.ProfileTools.display(user.getId)">Chat now</a></li>
+				<li><a href="@routes.ChatTools.withYou(user.getId)">Chat now</a></li>
 				<li><a href="#">Make an appointment</a></li>
 				}
 			</ul>
@@ -84,23 +84,10 @@
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
-	        <h4 class="modal-title" id="myModalLabel">Your contact information (Some CSS pleasse ?)</h4>
+	        <h4 class="modal-title" id="myModalLabel">Your contact information (Some CSS please ?)</h4>
 	      </div>
 	      <div class="modal-body">
-	      	<table>
-	      		<thead>
-	      			<tr>
-	      				<th>Type of contact</th>
-	      				<th>Details</th>
-	      				<th></th>
-	      			</tr>
-	      		</thead>
-	      		<tbody class="contactList">
-		      		@for(c<-user.getMyContactsInfo){
-					@inc.profile.itemContact(c)
-					}
-	      		</tbody>
-	      	</table>
+	      	@inc.profile.groupContact(user.getMyContactsInfo)
 			<div class="row">
 				<form action="@routes.ProfileTools.actionOnPanelObject("add","contact", 0)">
 					<div class="col-sm-5">
@@ -127,6 +114,6 @@
 	
 }{
 	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/jquery.auto-complete.min.js")"></script>
-	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/toggleForm.js")"></script>
+	<script type="text/javascript" src="@routes.Assets.versioned("javascripts/profile.js")"></script>
  	<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.versioned("stylesheets/profile.css")">
 }

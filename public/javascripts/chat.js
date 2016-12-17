@@ -65,7 +65,7 @@ $(document).ready(function(){
 		var out = $(".contactDisplay");
 		var roomId = $(this).attr("data-roomid");
 		var action = "/chat/getContact/"+roomId
-		
+		var me = $(this);
 		$.ajax({
 			url: action,
 			type: "get",
@@ -74,10 +74,11 @@ $(document).ready(function(){
 				out.append("<p class=\"error\">Error in ajax request :</br>"+$.parseHTML(res)+"</p>");
 			},
 			success: function(res){
-				out.text(res);
+				out.html($.parseHTML(res));
+				me.prop("disabled",true);
 			}
 		});
-	})
+	});
 	
 	//####### Chat only
 	//give Contact
@@ -91,9 +92,11 @@ $(document).ready(function(){
 			url: action,
 			type: "get",
 			dataType: "html",
-			error: function(res){
-				out.append("<p class=\"error\">Error in ajax request :</br>"+$.parseHTML(res)+"</p>");
-			},
+			complete: function(xhr, textStatus) {
+		        if(xhr.status == 401){
+		        	alert("Oh it seems you already have shared your contact to this person :o He can access it");
+		        }
+		    },
 			success: function(res){
 				out.prepend("You have shared your contact !");
 			}

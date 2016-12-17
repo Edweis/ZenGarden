@@ -1,0 +1,44 @@
+@(lm: List[Message], cu: User)
+
+<a href="#" class="dropdown-toggle"
+data-toggle="dropdown" role="button" aria-haspopup="true"
+aria-expanded="false">Hello @cu.getFirstName <span class="badge">@if(lm!=null){@lm.size}</span><span class="caret"></span>
+</a>
+<ul class="dropdown-menu ">	
+	<li>
+		<a href="@routes.ProfileTools.index()">My Profile</a>
+	</li>
+	<li>
+		<a href="#">My Messages <span class="badge">@if(lm!=null){@lm.size}</span></a>
+		@if(lm!=null){
+		<ul>
+			@for(m<-lm){
+			<li>
+				<span class="messagePic"> 
+					@inc.common.userPicture(m.getWriter,"xxs")
+				</span>
+				<div class="messageBody">
+					<div class="messageHeader">
+						<small class="text-muted pull-right">
+							<span class="glyphicon glyphicon-time"></span>@m.getDate
+						</small>
+						<strong class="primary-font">
+							@m.getWriter.getFirstName
+						</strong>
+					</div>
+					<a href="@routes.ChatTools.withYou(m.getWriter.getId)">
+						@if(m.getType.equals("SHARECONTACT")){
+						@m.getWriter.getFirstName has share his contact
+						}else{
+						@m.getContent new message(s)
+						}
+					</a>
+				</div>
+			</li>
+			}
+		</ul>
+		}
+	</li>
+	<li><a  href="#">My Appointments</a></li>
+</ul>
+	

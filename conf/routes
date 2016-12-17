@@ -4,7 +4,7 @@
 
 # Home
 GET    /                                   controllers.MainTools.home()
-
+GET		/notifications					   controllers.MainTools.getNotifications()
 # Sign
 GET    /signin                             controllers.SignTools.renderSignIn()
 POST   /signin                             controllers.SignTools.signIn()

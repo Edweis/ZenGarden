@@ -3,7 +3,6 @@ package controllers;
 import play.Logger;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -14,9 +13,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import controllers.ChatTools.MessageContent;
 import controllers.tools.AskForNewRequestResultException;
-import models.Chat;
 import models.Message;
 import models.Relationship;
 import models.Room;
@@ -54,31 +51,40 @@ public class ChatTools extends Controller {
 
 		Room room = Room.getRoomBetween(userToChatWith, Secured.connectedUser(ctx()));
 		if (room == null) {
-			Logger.info("creating a new room ....");
-			room = new Room(userToChatWith, connectedUser);
-			room.setChat(new Chat(connectedUser.getFirstName() + " ~ " + userToChatWith.getFirstName(), room));
+			room = Room.createDefaultChatRoom(connectedUser, userToChatWith);
 			room.save();
 		}
 		return ok(views.html.pages.chat.render(room));
 	}
 
 	/**
-	 * Get the latest message in the room send after untilThisTimestamp
+	 * Get the latest message in the room send after untilThisTimestamp.
+	 * Messages displayed will be marked as seen if they were written by someone
+	 * else.
 	 * 
 	 * @param roomId
 	 * @param untilThisTimestamp
 	 * @return the list of messages.
 	 */
 	public Result lastMessages(Long roomId, Long untilThisTimestamp) {
+		User cu = Secured.connectedUser(ctx());
 		Room room = Room.find.byId(roomId);
 		if (room == null) {
 			return notFound("room not found");
 		}
+
 		Timestamp ts = new Timestamp(untilThisTimestamp);
+		List<Message> lm = Message.lastMessagesSince(room, ts);
 
-		List<Message> lm = Message.find.where().eq("Chat.Room", room).and().gt("Date", ts).findList();
+		// mark them as seen TODO:think, should this be done in the front end ?
+		for (Message m : lm) {
+			if (!m.getWriter().equals(cu)) {
+				m.setSeen(true);
+				m.update();
+			}
+		}
 
-		return ok(views.html.pages.messageItem.render(lm, Secured.connectedUser(ctx())));
+		return ok(views.html.inc.chat.messageItem.render(lm, Secured.connectedUser(ctx())));
 	}
 
 	/**
@@ -98,7 +104,7 @@ public class ChatTools extends Controller {
 
 		// gather information
 		String content = ff.form(MessageContent.class).bindFromRequest().get().getContentMsg();
-		Message message = new Message(room.getChat(), cu, content);
+		Message message = Message.newRegularMessage(room.getChat(), cu, content);
 
 		// send the message
 		try {
@@ -133,8 +139,12 @@ public class ChatTools extends Controller {
 		}
 
 		// create new relationship
-		Relationship nr = new Relationship(connectedUser, interlocutor);
-		nr.insert();
+		try {
+			Relationship nr = new Relationship(connectedUser, interlocutor);
+			nr.insert();
+		} catch (AskForNewRequestResultException e) {
+			return e.getResult();
+		}
 		return ok();
 
 	}
@@ -155,13 +165,17 @@ public class ChatTools extends Controller {
 		}
 
 		// check relationship
-		Relationship rel = Relationship.hasHeSharedWith(connectedUser, interlocutor);
+		Relationship rel = Relationship.hasHeSharedWith(interlocutor, connectedUser);
+		Logger.info(connectedUser.toString());
+		Logger.info(interlocutor.toString());
+		Logger.info("" + Relationship.find.all());
+		Logger.info(rel + "");
 		if (rel == null) {
 			return unauthorized(interlocutor.getFirstName() + " hasn't shared contacts with you yet");
 		}
 
 		// return contact
-		return ok(Json.toJson(interlocutor.getMyContactsInfo()));
+		return ok(views.html.inc.profile.groupContact.render(interlocutor.getMyContactsInfo()));
 	}
 
 	/**

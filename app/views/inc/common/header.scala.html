@@ -28,15 +28,8 @@
 				<ul class="nav navbar-nav navbar-right">
 					@if(cu!=null){
 					<li><a href="@routes.SignTools.logout()">Logout</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">Hello @cu.getFirstName<span class="caret"></span></a>
-						<ul class="dropdown-menu">	
-							<li><a href="@routes.ProfileTools.index()">My Profile</a></li>
-							<li><a href="#">My Messages</a></li>
-							<li><a  href="#">My Appointments</a></li>
-							
-						</ul>
+					<li class="dropdown notificationPlace">
+						@inc.common.notification(null, cu)
 					</li>
 					}else{
 					<li><a href="@routes.SignTools.signIn()">Sign In</a></li>
