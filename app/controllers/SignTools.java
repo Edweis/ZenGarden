@@ -14,10 +14,6 @@ import models.User;
 
 public class SignTools extends Controller {
 
-	/**
-	 * Session variable that corresponds to the connected user id.
-	 */
-	public static final String USER_S = "connectedUser";
 	private FormFactory ff;
 
 	@Inject
@@ -65,7 +61,7 @@ public class SignTools extends Controller {
 		User u = User.authenticate(email, password);
 		if (u != null) {
 			Controller.session().clear();
-			Controller.session(USER_S, u.getId().toString());
+			Controller.session(Secured.USER_S, u.getId().toString());
 			return true;
 		} else {
 			return false;
