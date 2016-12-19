@@ -2,32 +2,38 @@
 @import models.tools.SearchField
 @(results: List[SearchResult], search: List[String])
 
-@main("Search"){
-	<div class="col-md-12">
+@main("Search"){	
+	<div class="row">
 		<form action="@routes.SearchTools.display()" method="get">
-			<input type="text" class="form-control" name="q" placeholder="What are you looking for ?"/>
-			<input type="hidden" class="form-control" name="f" value=""/>
-			<input type="submit" class="btn btn-default" value="Search"/>
+			<div class="col-md-6 col-md-offset-3">
+				<input type="text" class="form-control" name="q" placeholder="What are you looking for ?"/>
+				<input type="hidden" class="form-control" name="f" value=""/>
+			</div>
+			<div class="col-md-3">
+				<input type="submit" class="btn btn-default" value="Search"/>
+			</div>
 		</form>
 	</div>	
-	<div class="col-md-12">
-		<h2><b>Search results</b></h2>
-		@if(search==null){
-			<p>No results found</p>
-		}else{
-			<p>
-			@*Sort by matching rank*@
-			@results.sortWith(
-				(a,b)=> a.getMatchingRank > b.getMatchingRank 
-			).map{s=>
-				@inc.common.userItem(s.getUser){
-					MR : @s.getMatchingRank <br/>
-					Matching : <br/>
-					@s.getKeys<br/>
-					@s.getValues 
+	<div class="row">
+		<div class="col-md-12">
+			<h2><b>Search results</b></h2>
+			@if(search==null){
+				<p class="text-center">No results found</p>
+			}else{
+				<p>
+				@*Sort by matching rank*@
+				@results.sortWith(
+					(a,b)=> a.getMatchingRank > b.getMatchingRank 
+				).map{s=>
+					@inc.common.userItem(s.getUser){
+						MR : @s.getMatchingRank <br/>
+						Matching : <br/>
+						@s.getKeys<br/>
+						@s.getValues 
+					}
 				}
-			}
-			</p>
-		}		
+				</p>
+			}		
+		</div>
 	</div>
 }()

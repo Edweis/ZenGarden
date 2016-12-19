@@ -71,7 +71,9 @@ $(document).ready(function(){
 			type: "get",
 			dataType: "html",
 			error: function(res){
-				out.append("<p class=\"error\">Error in ajax request :</br>"+$.parseHTML(res)+"</p>");
+				if(xhr.status == 401){
+		        	alert("This person hasn't shared it contact wit you yet.");
+		        }
 			},
 			success: function(res){
 				out.html($.parseHTML(res));

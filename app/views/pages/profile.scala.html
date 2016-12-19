@@ -2,81 +2,94 @@
 @import inc.profile._
 
 @main("Profile"){
-	<h1>@user.getFirstName's profile</h1>
-	<div id="nutshell" class="row">
-		<div id="pictureSpace" class="col-md-3">
-			<div class="row">
-				@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
-				<div class="toogleDisplay">
-					@inc.common.userPicture(user, "l")
+	<div id="main" class="row">
+		<div id="sidePanel" class="col-md-3">
+			<div class="thumbnail nutshell">
+				<div id="profilePicture">
+			       @forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
+					<div>
+						@inc.common.userPicture(user, "l")
+					</div>
+					}{
+					<input type="file" name="picture" />
+					}("post","Change profile picture","enctype=multipart/form-data", false)
 				</div>
-				}{
-				<input type="file" name="picture" />
-				}("post","Change Pic","enctype=multipart/form-data", false)
-			</div>
-			<div class="row">
-				@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
-					<p> IT:
-					<span class="toogleDisplay">@user.getIntroductionText</span>
-					</p>
-				}{
-				<textarea row="3" name="IntroductionText" value="@user.getIntroductionText"></textarea>
-				}()
-			</div>
-		</div>
-		<div id="nutshellContent" class="col-md-9">
-			<dl>
-				<dt>First Name</dt>
-				<dd>@user.getFirstName</dd>
-				<dt>Nationality</dt>
-				<dd>
-					@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
-					@if(user.getNationality==null){
-					<span class="toogleDisplay">Not referenced</span>
-					}else{
-					<span class="toogleDisplay">@user.getNationality.getName</span>
-					}
-					}{
-					@if(user.getNationality==null){
-						@inc.common.countryForm("nationality","")
-					}else{
-						@inc.common.countryForm("nationality",user.getNationality.getCode3)
-					}
-					}("post","Change","",true)
-				</dd>
-				<dt>Appointment price</dt>
-				<dd>
-					@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
-					<span class="toogleDisplay">@user.getAppointmentPrice</span>
-					}{
-					<input type="text" name="AppointmentPrice" value="@user.getAppointmentPrice" placeHolder="a cofee, a lunch, xx€, xx$ ... "/>
-					}("post","Change","",true)
-				</dd>
-			</dl>
-			<ul>
-				@if(mine){
-				<li><a id="changePersoInfo" href="#" data-toggle="modal" data-target="#myInfo">Change personal info [TODO]</a></li>
-				}else{
-				<li><a href="@routes.ChatTools.withYou(user.getId)">Chat now</a></li>
-				<li><a href="#">Make an appointment</a></li>
-				}
-			</ul>
-		</div>
-	</div>
-	<div id="mainContent" class="row">
-		<div id="sidePanel" class="col-md-3 .hidden-sm .hidden-xs">
-			side panel
-		</div>
-		<div id="details" class="col-md-9">
-			<div class="row">
-				@educationPanel(user.getMyEducation,mine)
-				@scholarshipPanel(user.getMyFunding,mine)
-				@experiencePanel(user.getMyExperience, mine)
-				@workPanel(user.getMyWorkcursus, mine)
+		      	<div class="caption">
+			        <p>
+				        @forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
+						<span class="toogleDisplay">@user.getIntroductionText</span>
+						}{
+						<textarea row="3" name="IntroductionText" value="@user.getIntroductionText"></textarea>
+						}("post","Change introduction text","", true)
+			        </p>
+			        @if(!mine){
+			        <p>
+				        <a href="@routes.ChatTools.withYou(user.getId)" class="btn btn-primary" role="button">Chat</a>
+				        <a href="#" class="btn btn-default" role="button">Make appointment</a>
+			        </p>
+			        }else{
+			        <p>
+			        	<a id="changePersoInfo btn btn-default" role="button" href="#" data-toggle="modal" data-target="#myInfo">Change personal info</a>
+			        </p>
+			        }
+	        	</div>
+	      	</div>
+	      	<div>
+				COMMENT FROM OTHERS	      	
+	      	</div>
+	    </div>
+		<div id="profileContent" class="col-md-9">
+			<div id="outlook" class="row">
+				<div class="col-md-12">
+					<h1>@user.getFirstName's profile</h1>
+					<dl>
+						<dt>Nationality</dt>
+						<dd>
+							@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
+							@if(user.getNationality==null){
+							<span class="toogleDisplay">Not referenced yet</span>
+							}else{
+							<span class="toogleDisplay">@user.getNationality.getName</span>
+							}
+							}{
+							@if(user.getNationality==null){
+								@inc.common.countryForm("nationality","")
+							}else{
+								@inc.common.countryForm("nationality",user.getNationality.getCode3)
+							}
+							}("post","Change","",true)
+						</dd>
+						<dt>Appointment price</dt>
+						<dd>
+							@forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
+							@if(user.getAppointmentPrice==null){
+							<span class="toogleDisplay">Not referenced yet</span>
+							}else{
+							<span class="toogleDisplay">@user.getAppointmentPrice</span>
+							}
+							}{
+							<input type="text" name="AppointmentPrice" value="@user.getAppointmentPrice" placeHolder="a cofee, a lunch, xx€, xx$ ... "/>
+							}("post","Change","",true)
+						</dd>
+					</dl>
+				</div>
+				<div class="col-md-12">
+					<div id="mainContent" class="row">
+						<div id="details">
+							<div class="row">
+								@educationPanel(user.getMyEducation,mine)
+								@scholarshipPanel(user.getMyFunding,mine)
+								@experiencePanel(user.getMyExperience, mine)
+								@workPanel(user.getMyWorkcursus, mine)
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 	@if(mine){
+	@*MODAL FOR INFORMATION DIPLAY*@
 	<div class="modal fade" id="myInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">

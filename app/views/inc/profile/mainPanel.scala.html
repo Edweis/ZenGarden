@@ -2,21 +2,19 @@
 
 @action = @{routes.ProfileTools.actionOnPanelObject("add",title.toLowerCase,0)}
 
-<div class="col-md-6 panel panel-info" id="@title.toLowerCase()Panel" style="min-height:100px;">
-	<h4>
-		@title
-	</h4>
-	<div class="panel-body">
-		@forms.formToogable(mine, action){
-		<ul class="toogleDisplay">
-			@contentPanel(title, le, mine)
-		</ul>
-		}{
-		<p>
-			@form
-		</p>
-		}()
+<div class="col-md-6">
+	<div class="panel panel-info" id="@title.toLowerCase()Panel" style="min-height:100px;">
+		<div class="panel-heading">@title</div>
+		<div class="panel-body">
+			@forms.formToogable(mine, action){
+			<ul class="toogleDisplay">
+				@contentPanel(title, le, mine)
+			</ul>
+			}{
+			<p>
+				@form
+			</p>
+			}()
+		</div>
 	</div>
 </div>
-
-
