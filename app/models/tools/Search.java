@@ -1,6 +1,7 @@
 package models.tools;
 
-import java.lang.reflect.Field;
+import play.Logger;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,23 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import models.Country;
-import models.Education;
-import models.Experience;
-import models.Scholarship;
-import models.School;
+import controllers.tools.Global;
 import models.User;
-import models.Work;
-import net.sf.ehcache.config.Searchable;
 
 public class Search {
-
-	/**
-	 * Classes in witch we will make the search. Theses classes should contain
-	 * field annotated with {@link Searchable}.
-	 */
-	private final static Class<?>[] ALL_ENTITY_CLASS = { User.class, Education.class, Scholarship.class, Work.class,
-			Country.class, Experience.class, School.class };
 
 	private List<String> queries;
 	private List<SearchField> filters;
@@ -40,17 +28,45 @@ public class Search {
 	}
 
 	/*
-	 * Set the filters of the search. If null filter is just an empty array.
+	 * Set the filters of the search. If null, filter is just will be an empty
+	 * array.
 	 */
 	public void setFilters(String[] filters) {
 		this.filters = new ArrayList<SearchField>();
 		if (filters != null) {
+			// there are some fields input
 			for (int i = 0; i < filters.length; i++) {
+				// for each of them
 				if (!"".equals(filters[i])) {
-					this.filters.add(new SearchField(filters[i]));
+					// if they are not empty
+					boolean found = false;
+					for (SearchField f : getFieldsFromLabel(filters[i])) {
+						// we add all filters that are labeled with that name
+						this.filters.add(f);
+						found = true;
+					}
+					if (!found) {
+						Logger.warn("field : " + filters[i] + " hasn't been found");
+					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * Return the list of SearchFields with the label <tt>fieldLabel</tt>
+	 * 
+	 * @param fieldLabel
+	 * @return
+	 */
+	private List<SearchField> getFieldsFromLabel(String fieldLabel) {
+		ArrayList<SearchField> res = new ArrayList<SearchField>();
+		for (SearchField sf : Global.ALL_SEARCHEABLE_FIELDS) {
+			if (sf.label.equals(fieldLabel)) {
+				res.add(sf);
+			}
+		}
+		return res;
 	}
 
 	/**
@@ -66,7 +82,7 @@ public class Search {
 
 		// initiate fieldToProcess
 		if (filters.isEmpty()) {
-			fieldToProcess = initSearchableFields();
+			fieldToProcess = Global.ALL_SEARCHEABLE_FIELDS;
 		} else {
 			fieldToProcess = filters;
 		}
@@ -82,27 +98,6 @@ public class Search {
 
 		// extract results
 		return factory.extractResults();
-	}
-
-	/**
-	 * Finds from {@link SEARCH_CLASS} all search fields, with are the fields
-	 * annotated with {@link SearchField}.
-	 * 
-	 * @return
-	 */
-	private List<SearchField> initSearchableFields() {
-		ArrayList<SearchField> res = new ArrayList<SearchField>();
-
-		// Generate filter for all these class
-		for (Class<?> c : ALL_ENTITY_CLASS) {
-
-			for (Field f : c.getDeclaredFields()) {
-				if (f.isAnnotationPresent(SearcheableField.class)) {
-					res.add(new SearchField(f));
-				}
-			}
-		}
-		return res;
 	}
 
 	/**
@@ -132,7 +127,6 @@ public class Search {
 		 * @return
 		 */
 		public List<SearchResult> extractResults() {
-
 			return new ArrayList<SearchResult>(storage.values());
 		}
 

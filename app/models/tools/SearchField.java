@@ -7,11 +7,9 @@ import controllers.tools.WrongConstructionException;
 import models.User;
 
 public class SearchField {
-	private Field field;
-
-	public SearchField(String fieldInString) {
-		// TODO Auto-generated constructor stub
-	}
+	private final Field field;
+	private final String userFetchPath;
+	public final String label;
 
 	/**
 	 * String that will be displayed in the get request. TODO : improve and
@@ -20,6 +18,8 @@ public class SearchField {
 
 	public SearchField(Field field) {
 		this.field = field;
+		this.label = field.getAnnotation(SearcheableField.class).label();
+		this.userFetchPath = field.getAnnotation(SearcheableField.class).userFetchPath();
 	}
 
 	@Override
@@ -53,12 +53,11 @@ public class SearchField {
 		// construction debug
 		String className = field.getDeclaringClass().getSimpleName();
 		String fieldName = field.getName();
-		String path = field.getAnnotation(SearcheableField.class).userFetchPath();
+		String path = userFetchPath;
 
-		if (!path.startsWith("User") || !path.endsWith(className)) {
-			throw new WrongConstructionException(
-					"The path '" + path + "' from the field '" + fieldName + "' in the class '" + className
-							+ "' doesn't starts with 'User' or doesn't ends with '" + className + "'");
+		if (!path.startsWith("User")) {
+			throw new WrongConstructionException("The path '" + path + "' from the field '" + fieldName
+					+ "' in the class '" + className + "' doesn't starts with 'User'");
 		}
 
 		// Remove the "User[.]" at the beginning

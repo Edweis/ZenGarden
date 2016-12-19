@@ -70,7 +70,7 @@ $(document).ready(function(){
 			url: action,
 			type: "get",
 			dataType: "html",
-			error: function(res){
+			error: function(xhr, res){
 				if(xhr.status == 401){
 		        	alert("This person hasn't shared it contact wit you yet.");
 		        }

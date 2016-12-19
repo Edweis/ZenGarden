@@ -19,7 +19,7 @@
 				        @forms.formToogable(mine, routes.ProfileTools.actionOnPanelObject("edit","user",0)){
 						<span class="toogleDisplay">@user.getIntroductionText</span>
 						}{
-						<textarea row="3" name="IntroductionText" value="@user.getIntroductionText"></textarea>
+						<textarea row="3" name="IntroductionText" style="resize:none" value="@user.getIntroductionText"></textarea>
 						}("post","Change introduction text","", true)
 			        </p>
 			        @if(!mine){

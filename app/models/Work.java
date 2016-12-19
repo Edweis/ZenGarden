@@ -66,7 +66,7 @@ public class Work extends Model {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
-	@SearcheableField(userFetchPath = "User.myWorkcursus.Work")
+	@SearcheableField(label = "Company", userFetchPath = "User.myWorkcursus.Work")
 	private String CompanyName;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcountry")

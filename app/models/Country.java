@@ -15,6 +15,7 @@ public class Country extends Model {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 	@SearcheableField(userFetchPath = "User.myEducation.School.Country")
+	// @SearcheableField(userFetchPath = "User.Nationality")
 	private String Name;
 	private String Code2;
 	private String Code3;

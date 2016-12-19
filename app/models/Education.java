@@ -96,7 +96,7 @@ public class Education extends Model implements UserBelonging {
 	private Integer DurationMonth;
 	private Integer StartYear;
 	private String Promotion;
-	@SearcheableField(userFetchPath = "User.myEducation")
+	@SearcheableField(label = "Major", userFetchPath = "User.myEducation")
 	private String Major;
 	private Boolean IsHomeUniversity;
 	private Boolean IsCurrentEducation;

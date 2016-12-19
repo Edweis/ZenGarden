@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 
 import com.avaje.ebean.Model;
 
+import models.tools.SearcheableField;
 import models.tools.UserBelonging;
 
 @Entity
@@ -73,6 +74,7 @@ public class WorkCursus extends Model implements UserBelonging {
 	private Work Work;
 	private Date StartDate;
 	private Integer DurationMonth;
+	@SearcheableField(label = "Position", userFetchPath = "User.myWorkcursus")
 	private String Position;
 	private Boolean IsCurrentWork;
 

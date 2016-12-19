@@ -66,7 +66,7 @@ public class Experience extends Model implements UserBelonging {
 	@JoinColumn(name = "IdUser")
 	@NotNull
 	private User User;
-	@SearcheableField(userFetchPath = "User.myExperience")
+	@SearcheableField(label = "Experience", userFetchPath = "User.myExperience")
 	private String Name;
 	private String Duration;
 	private String Details;

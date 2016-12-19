@@ -73,7 +73,7 @@ public class School extends Model {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
-	@SearcheableField(userFetchPath = "User.myEducation.School")
+	@SearcheableField(label = "School", userFetchPath = "User.myEducation.School")
 	private String Name;
 	@NotNull(message = "Please insert a country")
 	@ManyToOne(fetch = FetchType.EAGER)

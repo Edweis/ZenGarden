@@ -186,7 +186,7 @@ public class User extends Model {
 	private String Email;
 	@Constraints.Required
 	private String Password;
-	@SearcheableField(userFetchPath = "User")
+	@SearcheableField(label = "Name", userFetchPath = "User")
 	@Constraints.Required
 	private String FirstName;
 

@@ -36,7 +36,7 @@ public class Scholarship extends Model {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
-	@SearcheableField(userFetchPath = "User.myFunding.Scholarship")
+	@SearcheableField(label = "Scholarship", userFetchPath = "User.myFunding.Scholarship")
 	@NotNull(message = "Please insert a title")
 	private String Title;
 	@NotNull(message = "Please insert a year")
